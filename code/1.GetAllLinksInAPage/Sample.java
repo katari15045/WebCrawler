@@ -2,12 +2,13 @@ import java.io.IOException;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
 import org.jsoup.nodes.Element;
 
 public class Sample 
 {
 	private static Document document;
-	private static org.jsoup.select.Elements links;
+	private static Elements links;
 	private static String targetURL;
 	
 	public static void main(String[] args)
