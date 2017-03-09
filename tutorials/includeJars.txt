@@ -1,0 +1,4 @@
+Assumption : you are currently in a folder where you have Sample.java
+
+javac -cp ".:path_to_jar" Sample.java
+java -cp ".:path_to_jar" Sample

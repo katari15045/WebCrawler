@@ -1,2 +1,0 @@
--Download eclipse installer from official website
--Install Eclipse IDE for Java Developers
