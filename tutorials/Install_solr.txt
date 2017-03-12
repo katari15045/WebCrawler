@@ -1,0 +1,10 @@
+
+Download "solr-6.4.2-src.tgz" & "solr-6.4.2.tgz" from http://mirror.wanxp.id/apache/lucene/solr/6.4.2/
+cd /home/saketh/Downloads/solr-6.4.2/solr/bin$
+sudo bash install_solr_service.sh /home/saketh/Downloads/solr-6.4.2.tgz
+- If you get this error "The currently defined JAVA_HOME (/usr/local/java/jdk1.8.0_91) refers to a location where Java could not be found."
+then 
+- nano /etc/default/solr.in.sh
+- 22nd line should be SOLR_JAVA_HOME="/usr/lib/jvm/java-8-openjdk-i386"
+- Make sure you remove the comment to this line
+- sudo bash install_solr_service.sh /home/saketh/Downloads/solr-6.4.2.tgz -f

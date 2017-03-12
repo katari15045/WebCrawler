@@ -1,0 +1,12 @@
+
+
+Say you need to find the exact location of JDK in your linux system.
+whereis java
+It may return /usr/bin/java
+ls -al /usr/bin/java
+It may return java -> /etc/alternatives/java
+ls -al /etc/alternatives/java
+Now you can find it.
+
+Note : /usr/bin/java -> /etc/alternatives/java -> actual JDK
+i.e /usr/bin/java & /etc/alternatives/java are symbolic links
