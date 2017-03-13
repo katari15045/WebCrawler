@@ -1,5 +1,0 @@
-
-
-cd /home/saketh/Downloads/apache-nutch-2.3.1/src
-bin/nutch
-you should see "Usage: nutch COMMAND and some command desriptions on terminal"
