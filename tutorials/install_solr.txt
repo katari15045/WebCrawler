@@ -8,3 +8,7 @@ then
 - 22nd line should be SOLR_JAVA_HOME="/usr/lib/jvm/java-8-openjdk-i386"
 - Make sure you remove the comment to this line
 - sudo bash install_solr_service.sh /home/saketh/Downloads/solr-6.4.2.tgz -f
+
+Is Solr installed?
+If installed then it would be running on port 8983(local host).
+Type localhost:8983 in your browser
