@@ -1,6 +1,18 @@
 
+Temporary(Values won't be preserved after the shut down)
+-----------------------------------------------------------
 
-export JAVA_HOME=$JAVA_HOME:"/usr/lib/jvm/java-8-openjdk-i386"
+export JAVA_HOME=$JAVA_HOME:/usr/lib/jvm/java-8-openjdk-i386
 echo $JAVA_HOME
 
-It is same as JAVA_HOME = JAVA_HOME + "/usr/lib/jvm/java-8-openjdk-i386"
+It is same as JAVA_HOME = JAVA_HOME + /usr/lib/jvm/java-8-openjdk-i386
+
+Permanent change for all users
+-------------------------------
+
+nano /etc/profile
+JAVA_HOME=/usr/lib/jvm/java-8-openjdk-i386
+export JAVA_HOME
+
+To apply the changes, logout and login by typing the below command
+source /etc/profile
