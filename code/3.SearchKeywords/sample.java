@@ -1,5 +1,8 @@
 import java.util.Scanner;
 import java.util.LinkedHashSet;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Iterator;
 
 public class sample
 {
@@ -8,6 +11,7 @@ public class sample
 	private static int resultCount;
 	private static String userId;
 	private static String code;
+	private static String file;
 
 	private static StringBuilder url;
 	private static LinkedHashSet<String> result;
@@ -21,8 +25,8 @@ public class sample
 		httpClient = new HttpClient(url, resultCount);
 		httpClient.sendGetRequest();
 		result = httpClient.getResult();
-		System.out.println("----------------------------------------------------");
-		System.out.println(result);
+		displayResult();
+		storeLinksInAFile();
 	}
 
 	private static void takeUserInput()
@@ -50,5 +54,39 @@ public class sample
 		url.append(userId);
 		url.append("&code=");
 		url.append(code);
+	}
+
+	private static void displayResult()
+	{
+		System.out.println("----------------------------------------------------");
+		System.out.println("LinkedHashSet");
+		System.out.println("----------------------------------------------------");
+		System.out.println(result);
+	}
+
+	private static void storeLinksInAFile()
+	{
+		FileWriter fileWriter = null;
+		Iterator<String> iterator = null;
+		file = "seed.txt";
+
+		try
+		{
+			fileWriter = new FileWriter(file);
+			iterator = result.iterator();
+
+			while( iterator.hasNext() )
+			{
+				fileWriter.write( iterator.next() + "\n" );
+			}
+
+			fileWriter.flush();
+			fileWriter.close();
+		}
+
+		catch( IOException e )
+		{
+			e.printStackTrace();
+		}
 	}
 }
