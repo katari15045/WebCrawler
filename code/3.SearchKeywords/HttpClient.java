@@ -52,7 +52,7 @@ public class HttpClient
 
 	private void readResponse() throws IOException
 	{
-		String line;
+		String line, tempString;
 
 		br = new BufferedReader( new InputStreamReader( connection.getInputStream() ) );
 		line = br.readLine();
@@ -63,7 +63,14 @@ public class HttpClient
 			if( line.contains("<url>") )
 			{
 				System.out.print(line);
-				linkedHashSet.add( line.substring(16, line.indexOf("]]>")) );
+				tempString = line.substring(16, line.indexOf("]]>"));
+
+				if( !tempString.substring(0, 4).equals("http") )
+				{
+					tempString = "http://" + tempString;
+				}
+
+				linkedHashSet.add(tempString);
 			}
 
 			line = br.readLine();
