@@ -1,14 +1,16 @@
 import java.util.Scanner;
+import java.util.LinkedHashSet;
 
 public class sample
 {
 	private static String query;
 	private static String format;
+	private static int resultCount;
 	private static String userId;
 	private static String code;
 
 	private static StringBuilder url;
-	private static String result;
+	private static LinkedHashSet<String> result;
 	private static HttpClient httpClient;
 	private static Scanner scanner;
 
@@ -16,10 +18,10 @@ public class sample
 	{
 		takeUserInput();
 		makeURL();
-		httpClient = new HttpClient(url);
+		httpClient = new HttpClient(url, resultCount);
 		httpClient.sendGetRequest();
 		result = httpClient.getResult();
-
+		System.out.println("----------------------------------------------------");
 		System.out.println(result);
 	}
 
@@ -34,6 +36,7 @@ public class sample
 	{
 		url = new StringBuilder();
 		format = "xml";
+		resultCount = 20;
 		userId = "138";
 		code = "1461895544";
 
@@ -41,6 +44,8 @@ public class sample
 		url.append(query);
 		url.append("&format=");
 		url.append(format);
+		url.append("&n=");
+		url.append( Integer.toString(resultCount) );
 		url.append("&userid=");
 		url.append(userId);
 		url.append("&code=");

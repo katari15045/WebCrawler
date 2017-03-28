@@ -6,19 +6,21 @@ import java.net.ProtocolException;
 import java.net.MalformedURLException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.LinkedHashSet;
 
 public class HttpClient
 {
 	private URL url;
 	private String urlString;
+	private int resultCount;
 	private HttpURLConnection connection;
 	private BufferedReader br;
-	private String line;
-	private StringBuilder result;
+	private LinkedHashSet<String> linkedHashSet;
 
-	public HttpClient(StringBuilder inpURL)
+	public HttpClient(StringBuilder inpURL, int inpResultCount)
 	{
 		urlString = inpURL.toString();
+		resultCount = inpResultCount;
 	}
 
 	public void sendGetRequest() 
@@ -38,7 +40,7 @@ public class HttpClient
 
 	private void initializeObjects() throws MalformedURLException
 	{
-		result = new StringBuilder();
+		linkedHashSet = new LinkedHashSet<String>(resultCount);
 		url = new URL(urlString);
 	}
 
@@ -50,18 +52,26 @@ public class HttpClient
 
 	private void readResponse() throws IOException
 	{
+		String line;
+
 		br = new BufferedReader( new InputStreamReader( connection.getInputStream() ) );
 		line = br.readLine();
 
 		while( line != null )
 		{
-			result.append(line);
+
+			if( line.contains("<url>") )
+			{
+				System.out.print(line);
+				linkedHashSet.add( line.substring(16, line.indexOf("]]>")) );
+			}
+
 			line = br.readLine();
 		}
 	}
 
-	public String getResult()
+	public LinkedHashSet<String> getResult()
 	{
-		return result.toString();
+		return linkedHashSet;
 	}
 }
