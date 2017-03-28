@@ -15,18 +15,16 @@ mkdir urls
 cd urls
 touch seed.txt
 nano seed.txt and add a link for example https://explorelinux.github.io
-8.nano /opt/apache-nutch-1.12/conf/regex-urlfilter.txt and replace the last line(+.) with the following line
-+^https://([a-z0-9]*\.)*explorelinux.github.io
-9.cd /opt/apache-nutch-1.12/
+8.cd /opt/apache-nutch-1.12/
 bin/nutch inject crawl/crawldb urls/
-10.bin/nutch generate crawl/crawldb crawl/segments -topN 10
-11.s1=crawl/segments/20170313185951/	(20170313185951 should be different in your case)
+9.bin/nutch generate crawl/crawldb crawl/segments -topN 10
+10.s1=crawl/segments/20170313185951/	(20170313185951 should be different in your case)
 check the value of s1 by typing echo $s1
 bin/nutch fetch $s1
 bin/nutch parse $s1
 bin/nutch updatedb crawl/crawldb $s1
 bin/nutch invertlinks crawl/linkdb -dir crawl/segments
-12.mkdir out_1
+11.mkdir out_1
 bin/nutch readseg -dump crawl/segments/20170313185951/ out_1 -nocontent -nofetch - nogenerate -noparse -noparsetext
 cd out_1
 cat dump (or)
