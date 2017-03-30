@@ -18,6 +18,8 @@ public class sample
 	private static HttpClient httpClient;
 	private static Scanner scanner;
 
+	private static ApacheNutch apacheNutch;
+
 	public static void main(String[] args) throws Exception
 	{
 		takeUserInput();
@@ -27,6 +29,8 @@ public class sample
 		result = httpClient.getResult();
 		displayResult();
 		storeLinksInAFile();
+		apacheNutch = new ApacheNutch();
+		apacheNutch.start();
 	}
 
 	private static void takeUserInput()
