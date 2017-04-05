@@ -12,4 +12,3 @@ bin/solr restart
 cd /opt/apache-nutch-1.12/
 s1=crawl/segments/2*
 bin/nutch solrindex http://localhost:8983/solr/temp_core crawl/crawldb/ -linkdb crawl/linkdb/ $s1
-curl "http://localhost:8983/solr/temp_core/select?q=redbus"
