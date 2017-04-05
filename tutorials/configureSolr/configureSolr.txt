@@ -12,3 +12,4 @@ cd /opt/apache-nutch-1.12/
 s1=crawl/segments/20170330230701/
 bin/nutch solrindex http://localhost:8983/solr/temp_core crawl/crawldb/ -linkdb crawl/linkdb/ $s1
 type http://localhost:8983/solr/foo/select?q=$querystring on browser
+or type curl "http://localhost:8983/solr/temp_core/select?q=lemur" on terminal
