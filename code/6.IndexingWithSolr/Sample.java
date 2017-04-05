@@ -1,8 +1,11 @@
+import java.util.LinkedHashSet;
 
-public class Solr
+public class Sample
 {
 	private static Shell shell;
 	private static MyDatabase database;
+	private static Parser parser;
+	private static LinkedHashSet<String> urlSet;
 
 	public static void main(String[] args)
 	{
@@ -12,5 +15,9 @@ public class Solr
 		database = new MyDatabase();
 		System.out.println(shell.getOutput());
 		database.store( shell.getOutput() );
+		parser = new Parser();
+		urlSet = parser.getUrls();
+
+		System.out.println(urlSet);
 	}
 }
