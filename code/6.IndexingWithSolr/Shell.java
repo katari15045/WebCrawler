@@ -34,8 +34,11 @@ public class Shell
 
 			while( currentLine != null )
 			{
-				output.append(currentLine);
-				output.append("\n");
+				if( currentLine.contains("<str name") )
+				{
+					output.append(currentLine);
+					output.append("\n");
+				}
 				currentLine = bufferedReader.readLine();
 			}
 
