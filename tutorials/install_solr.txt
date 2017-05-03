@@ -1,11 +1,9 @@
 1. Download the latest version of Solr(In my case solr-6.4.2.tgz) from http://mirror.wanxp.id/apache/lucene/solr
-2. cp -r solr-6.4.2.tgz /opt
-3. sudo -i
-4. cd /opt
-5. tar xzf solr-6.4.2.tgz solr-6.4.2/bin/install_solr_service.sh --strip-components=2
-6. bash ./install_solr_service.sh solr-6.4.2.tgz
-   - If it doesn't work try bash ./install_solr_service.sh solr-6.4.2.tgz -f
-
+2. Don't delete the .tgz file and do $tar -xvf solr-6.4.2.tgz
+3. $mv solr-6.4.2.tgz solr-6.4.2
+4. $sudo mv solr-6.4.2 /opt
+5. $sudo -i;cd /opt/solr-6.4.2/bin
+6. bash ./install_solr_service.sh ../solr-6.4.2.tgz
 
 Is Solr installed?
 If installed then it would be running on port 8983(local host).
