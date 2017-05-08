@@ -11,3 +11,5 @@
 
 	Creating new core 'temp_core' using command:
 	http://localhost:8983/solr/admin/cores?action=CREATE&name=temp_core&instanceDir=temp_core
+	
+Note : $sudo -u solr bin/solr create_core -c temp_core ----> worked
