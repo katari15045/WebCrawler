@@ -24,7 +24,8 @@ bin/nutch fetch $s1
 bin/nutch parse $s1
 bin/nutch updatedb crawl/crawldb $s1
 bin/nutch invertlinks crawl/linkdb -dir crawl/segments
-11.mkdir out_1
+11. (Optional)
+mkdir out_1
 bin/nutch readseg -dump crawl/segments/20170313185951/ out_1 -nocontent -nofetch - nogenerate -noparse -noparsetext
 cd out_1
 cat dump (or)
