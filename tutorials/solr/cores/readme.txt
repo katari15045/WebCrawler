@@ -1,11 +1,13 @@
 create core
 ------------
-1. $cd /opt/solr-6.5.0
-2. $sudo -u solr bin/solr create_core -c temp_core
-3. You can check newly created core in /var/solr/data
+Don't do $sudo -i
+1. $ cd /opt/solr-6.5.0
+2. $ sudo bin/solr create_core -c temp_core -force
+3. You can check newly created core in /opt/solr-6.5.1/server/solr
 
 delete core
 -----------
-1. $cd /opt/solr-6.5.0
-2. $sudo -u solr bin/solr delete -c temp_core
+Don't do $sudo -i
+1. $ cd /opt/solr-6.5.0
+2. $ bin/solr delete -c temp_core
 	
