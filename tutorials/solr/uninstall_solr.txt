@@ -1,0 +1,7 @@
+sudo service solr stop
+sudo rm -r /var/solr
+sudo rm -r /opt/solr-5.3.1
+sudo rm -r /opt/solr
+sudo rm /etc/init.d/solr
+sudo deluser --remove-home solr
+sudo rm /etc/default/solr.in.sh
