@@ -1,21 +1,7 @@
 <add>
   <doc>
-    <field name="name">United Kingdom</field>
-    <field name="description">This country occupied India</field>
+    <field name="name">github</field>
     <field name="url">https://britan.uk</field>
   </doc>
-
-  <doc>
-    <field name="name">India</field>
-    <field name="description">The subcontinent</field>
-    <field name="url">https://bharat.in</field>
-  </doc>
-
-  <doc>
-    <field name="name">Pakistan</field>
-    <field name="description">Beautiful country</field>
-    <field name="url">https://pakistan.pk</field>
-  </doc>
-
 </add>
 
