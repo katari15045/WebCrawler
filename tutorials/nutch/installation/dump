@@ -1,0 +1,90 @@
+
+Recno:: 0
+URL:: http://explorelinux.github.io/
+
+CrawlDatum::
+Version: 7
+Status: 65 (signature)
+Fetch time: Mon May 15 09:43:27 IST 2017
+Modified time: Thu Jan 01 05:30:00 IST 1970
+Retries since fetch: 0
+Retry interval: 0 seconds (0 days)
+Score: 0.0
+Signature: addf22345428e6d983b2b85afec158e1
+Metadata: 
+ 
+
+Recno:: 1
+URL:: http://explorelinux.github.io/bookmarks.html
+
+CrawlDatum::
+Version: 7
+Status: 67 (linked)
+Fetch time: Mon May 15 09:43:27 IST 2017
+Modified time: Thu Jan 01 05:30:00 IST 1970
+Retries since fetch: 0
+Retry interval: 2592000 seconds (30 days)
+Score: 0.2
+Signature: null
+Metadata: 
+ 
+
+Recno:: 2
+URL:: http://explorelinux.github.io/launcher.html
+
+CrawlDatum::
+Version: 7
+Status: 67 (linked)
+Fetch time: Mon May 15 09:43:27 IST 2017
+Modified time: Thu Jan 01 05:30:00 IST 1970
+Retries since fetch: 0
+Retry interval: 2592000 seconds (30 days)
+Score: 0.2
+Signature: null
+Metadata: 
+ 
+
+Recno:: 3
+URL:: http://explorelinux.github.io/software_centre.html
+
+CrawlDatum::
+Version: 7
+Status: 67 (linked)
+Fetch time: Mon May 15 09:43:27 IST 2017
+Modified time: Thu Jan 01 05:30:00 IST 1970
+Retries since fetch: 0
+Retry interval: 2592000 seconds (30 days)
+Score: 0.2
+Signature: null
+Metadata: 
+ 
+
+Recno:: 4
+URL:: http://explorelinux.github.io/terminal.html
+
+CrawlDatum::
+Version: 7
+Status: 67 (linked)
+Fetch time: Mon May 15 09:43:27 IST 2017
+Modified time: Thu Jan 01 05:30:00 IST 1970
+Retries since fetch: 0
+Retry interval: 2592000 seconds (30 days)
+Score: 0.2
+Signature: null
+Metadata: 
+ 
+
+Recno:: 5
+URL:: http://explorelinux.github.io/workspaces.html
+
+CrawlDatum::
+Version: 7
+Status: 67 (linked)
+Fetch time: Mon May 15 09:43:27 IST 2017
+Modified time: Thu Jan 01 05:30:00 IST 1970
+Retries since fetch: 0
+Retry interval: 2592000 seconds (30 days)
+Score: 0.2
+Signature: null
+Metadata: 
+ 
