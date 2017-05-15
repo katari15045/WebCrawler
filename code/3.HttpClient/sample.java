@@ -2,21 +2,36 @@ import java.util.Scanner;
 
 public class sample
 {
-	private static String url;
 	private static String result;
 	private static HttpClient httpClient;
 
+	private static String queryString;
+	private static String format;
+	private static String userid;
+	private static String code;
+	private static StringBuilder url;
+
 	public static void main(String[] args) throws Exception
 	{
-		String userStr = takeUserInput();
-		String queryString = prepareQueryString(userStr);
-		System.out.println(queryString);
-		//url = "https://www.gigablast.com/search?q=test&format=xml&userid=12345&code=demo";
+		
+		prepareQueryString();
+		format = "xml";
+		userid = "138";
+		code  = "1461895544";
+		prepareUrl();
+		System.out.println(url);
 		//httpClient = new HttpClient(url);
 		//httpClient.sendGetRequest();
 		//result = httpClient.getResult();
 
 		//System.out.println(result);
+	}
+
+	private static void prepareUrl()
+	{
+		url = new StringBuilder();
+		url.append("https://www.gigablast.com/search?q=").append(queryString).append("&format=").append(format).append("&userid=").append(userid)
+																		.append("&code=").append(code);
 	}
 
 	private static String takeUserInput()
@@ -29,24 +44,25 @@ public class sample
 		return inpStr;
 	}
 
-	private static String prepareQueryString(String inpStr)
+	private static void prepareQueryString()
 	{
 		StringBuilder result = new StringBuilder();
+
+		String userStr = takeUserInput();
 		int count = 0;
 
-		for(String str:inpStr.split(" "))
+		for(String str:userStr.split(" "))
 		{
 			if( count != 0 )
 			{
 				result.append("\\ ");
 			}
 
-			//System.out.println(str);
 			result.append(str);
 
 			count = count + 1;
 		}
 
-		return result.toString();
+		queryString = result.toString();
 	}
 }
