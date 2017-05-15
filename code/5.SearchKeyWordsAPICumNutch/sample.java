@@ -28,9 +28,9 @@ public class sample
 		httpClient.sendGetRequest();
 		result = httpClient.getResult();
 		displayResult();
-		storeLinksInAFile();
-		apacheNutch = new ApacheNutch();
-		apacheNutch.start();
+		//storeLinksInAFile();
+		//apacheNutch = new ApacheNutch();
+		//apacheNutch.start();
 	}
 
 	private static void takeUserInput()
@@ -58,6 +58,8 @@ public class sample
 		url.append(userId);
 		url.append("&code=");
 		url.append(code);
+
+		System.out.println(url);
 	}
 
 	private static void displayResult()

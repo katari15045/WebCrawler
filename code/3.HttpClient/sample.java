@@ -7,6 +7,7 @@ public class sample
 
 	private static String queryString;
 	private static String format;
+	private static String resultCount;
 	private static String userid;
 	private static String code;
 	private static StringBuilder url;
@@ -16,13 +17,14 @@ public class sample
 		
 		prepareQueryString();
 		format = "xml";
+		resultCount = "20";
 		userid = "138";
 		code  = "1461895544";
 		prepareUrl();
-		System.out.println(url);
-		//httpClient = new HttpClient(url);
-		//httpClient.sendGetRequest();
-		//result = httpClient.getResult();
+	
+		httpClient = new HttpClient( url.toString() );
+		httpClient.sendGetRequest();
+		result = httpClient.getResult();
 
 		//System.out.println(result);
 	}
@@ -30,8 +32,8 @@ public class sample
 	private static void prepareUrl()
 	{
 		url = new StringBuilder();
-		url.append("https://www.gigablast.com/search?q=").append(queryString).append("&format=").append(format).append("&userid=").append(userid)
-																		.append("&code=").append(code);
+		url.append("https://www.gigablast.com/search?q=").append(queryString).append("&format=").append(format).append("&n=").append(resultCount)
+			.append("&userid=").append(userid).append("&code=").append(code);
 	}
 
 	private static String takeUserInput()
@@ -55,7 +57,7 @@ public class sample
 		{
 			if( count != 0 )
 			{
-				result.append("\\ ");
+				result.append("%20");
 			}
 
 			result.append(str);

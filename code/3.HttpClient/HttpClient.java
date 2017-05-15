@@ -40,6 +40,7 @@ public class HttpClient
 	{
 		result = new StringBuilder();
 		url = new URL(urlString);
+		System.out.println(urlString);
 	}
 
 	private void makeConnection() throws IOException, ProtocolException
@@ -55,7 +56,25 @@ public class HttpClient
 
 		while( line != null )
 		{
-			result.append(line);
+			if( line.contains("<url>") )
+			{
+				String tempString = line.substring(16, line.indexOf("]]>"));
+
+				if( !tempString.substring(0, 4).equals("http") )
+				{
+					tempString = "http://" + tempString;
+				}
+
+				System.out.println(tempString);
+			}
+
+			else if( line.contains("<title>") )
+			{
+				String tempString = line.substring(18, line.indexOf("]]>"));
+				System.out.println(tempString);
+			}
+
+			result.append(line).append("\n");
 			line = br.readLine();
 		}
 	}
