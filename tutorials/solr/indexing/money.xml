@@ -3,5 +3,15 @@
     <field name="name">github</field>
     <field name="url">https://britan.uk</field>
   </doc>
+
+  <doc>
+    <field name="name">google</field>
+    <field name="url">https://goole.com</field>
+  </doc>
+
+  <doc>
+    <field name="name">India</field>
+    <field name="url">https://india.com</field>
+  </doc>
 </add>
 

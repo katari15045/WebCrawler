@@ -22,11 +22,12 @@ public class sample
 		code  = "1461895544";
 		prepareUrl();
 	
-		httpClient = new HttpClient( url.toString() );
-		httpClient.sendGetRequest();
-		result = httpClient.getResult();
+		httpClient = new HttpClient();
+		httpClient.sendGetRequest( url.toString(), "APIData.xml" );
 
-		//System.out.println(result);
+		XMLParser xmlParser = new XMLParser();
+		String parsedData = xmlParser.parse("APIData.xml");
+		System.out.println(parsedData);
 	}
 
 	private static void prepareUrl()
