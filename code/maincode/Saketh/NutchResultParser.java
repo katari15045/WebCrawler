@@ -2,11 +2,13 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.LinkedHashSet;
+import java.util.Iterator;
 
 
 public class NutchResultParser
 {
 	private LinkedHashSet<String> links;
+	private UrlDomainChecker urlDomainChecker;
 
 	public LinkedHashSet<String> start()
 	{
@@ -16,12 +18,13 @@ public class NutchResultParser
 			BufferedReader bufferedReader = new BufferedReader(fileReader);
 			String line = bufferedReader.readLine();
 			links = new LinkedHashSet<String>();
+			urlDomainChecker = new UrlDomainChecker();
 
 			while( line != null )
 			{
 				if( line.contains("URL::") )
 				{
-					links.add( line.substring(6, line.length()) );
+					processTheLink( line.substring(6, line.length()) );
 				}
 
 				line = bufferedReader.readLine();
@@ -37,5 +40,20 @@ public class NutchResultParser
 
 		return links;
 
+	}
+
+	private void processTheLink(String link)
+	{
+		Iterator iterator = links.iterator();
+
+		while( iterator.hasNext() )
+		{
+			if( urlDomainChecker.areTheyInSameDomain(link, (String)iterator.next()) )
+			{
+				return;
+			}
+		}
+
+		links.add(link);
 	}
 }
