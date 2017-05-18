@@ -1,96 +1,41 @@
 import java.util.Scanner;
 import java.util.LinkedHashSet;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.Iterator;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 
 public class sample
 {
-	private static String query;
-	private static String format;
-	private static int resultCount;
-	private static String userId;
-	private static String code;
-	private static String file;
-
-	private static StringBuilder url;
-	private static LinkedHashSet<String> result;
-	private static HttpClient httpClient;
-	private static Scanner scanner;
-
 	private static ApacheNutch apacheNutch;
+	private static NutchResultParser nutchResultParser;
+	private static String url;
 
 	public static void main(String[] args) throws Exception
 	{
-		takeUserInput();
-		makeURL();
-		httpClient = new HttpClient(url, resultCount);
-		httpClient.sendGetRequest();
-		result = httpClient.getResult();
-		displayResult();
-		//storeLinksInAFile();
+		//takeUserInput();
+		//storeLinkInAFile();
 		//apacheNutch = new ApacheNutch();
 		//apacheNutch.start();
+		nutchResultParser = new NutchResultParser();
+		nutchResultParser.start();
 	}
 
 	private static void takeUserInput()
 	{
-		scanner = new Scanner( System.in );
-		System.out.print("Key Words -> ");
-		query = scanner.nextLine();
+		Scanner scanner = new Scanner( System.in );
+		System.out.print("url -> ");
+		url = scanner.nextLine();
 	}
 
-	private static void makeURL()
+	private static void storeLinkInAFile()
 	{
-		url = new StringBuilder();
-		format = "xml";
-		resultCount = 20;
-		userId = "138";
-		code = "1461895544";
-
-		url.append("https://www.gigablast.com/search?q=");
-		url.append(query);
-		url.append("&format=");
-		url.append(format);
-		url.append("&n=");
-		url.append( Integer.toString(resultCount) );
-		url.append("&userid=");
-		url.append(userId);
-		url.append("&code=");
-		url.append(code);
-
-		System.out.println(url);
-	}
-
-	private static void displayResult()
-	{
-		System.out.println("----------------------------------------------------");
-		System.out.println("LinkedHashSet");
-		System.out.println("----------------------------------------------------");
-		System.out.println(result);
-	}
-
-	private static void storeLinksInAFile()
-	{
-		FileWriter fileWriter = null;
-		Iterator<String> iterator = null;
-		file = "seed.txt";
-
 		try
 		{
-			fileWriter = new FileWriter(file);
-			iterator = result.iterator();
-
-			while( iterator.hasNext() )
-			{
-				fileWriter.write( iterator.next() + "\n" );
-			}
-
-			fileWriter.flush();
-			fileWriter.close();
+			PrintWriter printWriter = new PrintWriter("seed.txt");
+			printWriter.print(url);
+			printWriter.close();	
 		}
 
-		catch( IOException e )
+		catch(FileNotFoundException e)
 		{
 			e.printStackTrace();
 		}
