@@ -5,6 +5,10 @@ import org.xml.sax.SAXException;
 import org.xml.sax.Attributes;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
+import java.util.LinkedHashSet;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.util.Iterator;
 
 
 
@@ -46,6 +50,8 @@ public class XMLParser
     {
         private boolean isTitle;
         private boolean isUrl;
+        private String currentTitle;
+        private String currentUrl;
 
         public MyHandler()
         {
@@ -70,14 +76,18 @@ public class XMLParser
         {
              if(isTitle)
              {
-             	parsedData.append("\t<doc>\n\t\t<field name=\"name\">").append( deleteSpecialChars( new String(ch,start,length) ) ).append("</field>\n");
+                currentTitle = deleteSpecialChars( new String(ch,start,length) );
+             	parsedData.append("\t<doc>\n\t\t<field name=\"name\">").append(currentTitle).append("</field>\n");
              	isTitle = false;
              }
 
              else if(isUrl)
              {
-             	parsedData.append("\t\t<field name=\"url\">").append( deleteSpecialChars( new String(ch,start,length) ) ).append("</field>\n\t</doc>\n\n");
+                currentUrl = deleteSpecialChars( new String(ch,start,length) );
+                System.out.println(" -------> " + currentUrl);
+             	parsedData.append("\t\t<field name=\"url\">").append(currentUrl).append("</field>\n\t</doc>\n\n");
              	isUrl = false;
+                crawlWithNutch();
              }
         }
 
@@ -94,5 +104,49 @@ public class XMLParser
 
         	return stringBuilder.toString();
         }
+
+        private void crawlWithNutch()
+        {
+            storeLinkInAFile(currentUrl);
+            ApacheNutch apacheNutch = new ApacheNutch();
+            apacheNutch.start();
+            NutchResultParser nutchResultParser = new NutchResultParser();
+            LinkedHashSet<String> nutchOutputUrls = nutchResultParser.start();
+            storeCrawledUrls(nutchOutputUrls);
+        }
+
+        private void storeLinkInAFile(String inpUrl)
+        {
+
+            if( !inpUrl.substring(0, 4).equals("http") )
+            {
+                inpUrl = "http://" + inpUrl;
+            }
+
+            try
+            {
+                PrintWriter printWriter = new PrintWriter("seed.txt");
+                printWriter.print(inpUrl);
+                printWriter.close();    
+            }
+
+            catch(FileNotFoundException e)
+            {
+                e.printStackTrace();
+            }
+        }
+
+        private void storeCrawledUrls(LinkedHashSet<String> urls)
+        {
+            Iterator iterator = urls.iterator();
+
+            while( iterator.hasNext() )
+            {
+                parsedData.append("\t<doc>\n\t\t<field name=\"name\">").append(currentTitle).append("</field>\n");
+                parsedData.append("\t\t<field name=\"url\">").append( iterator.next() ).append("</field>\n\t</doc>\n\n");
+            }
+        }
     }
+
+    
 }

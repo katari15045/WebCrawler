@@ -1,6 +1,8 @@
 import java.util.Scanner;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 
-public class sample
+public class Crawler
 {
 	private static String result;
 	private static HttpClient httpClient;
@@ -27,7 +29,7 @@ public class sample
 
 		XMLParser xmlParser = new XMLParser();
 		String parsedData = xmlParser.parse("APIData.xml");
-		System.out.println(parsedData);
+		writeDataToAFileForSolr(parsedData);
 	}
 
 	private static void prepareUrl()
@@ -67,5 +69,20 @@ public class sample
 		}
 
 		queryString = result.toString();
+	}
+
+	private static void writeDataToAFileForSolr(String data)
+	{
+		try
+		{
+			PrintWriter printWriter = new PrintWriter("solrIndexData.xml");
+			printWriter.print(data);
+			printWriter.close();
+		}
+
+		catch( FileNotFoundException e )
+		{
+			e.printStackTrace();
+		}
 	}
 }
