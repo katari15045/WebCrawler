@@ -12,7 +12,7 @@ import java.util.Iterator;
 
 
 
-public class XMLParser
+public class SolrResultsParser
 {
 	static
     {
@@ -23,6 +23,7 @@ public class XMLParser
     private SAXParserFactory spf;
     private SAXParser saxParser;
     private MyHandler handler;
+    private LinkedHashSet<SolrResult> solrResultSet;
 
     public String parse(String file)
     {
@@ -33,9 +34,8 @@ public class XMLParser
             spf = SAXParserFactory.newInstance();
             saxParser = spf.newSAXParser();
             handler = new MyHandler();
-            parsedData.append("<add>\n");
+            solrResultSet = new LinkedHashSet<SolrResult>();
             saxParser.parse(file,handler);
-            parsedData.append("</add>\n");
         }
 
         catch( Exception e )
@@ -44,6 +44,11 @@ public class XMLParser
         }
 
         return parsedData.toString();
+    }
+
+    public LinkedHashSet<SolrResult> getResults()
+    {
+        return solrResultSet;
     }
 
     private class MyHandler extends DefaultHandler
@@ -61,14 +66,18 @@ public class XMLParser
 
         public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException 
         {
-            if( qName.equals("title") )
-            {
-            	isTitle = true;
-            }
 
-            else if( qName.equals("url") )
+            if( attributes.getValue(0) != null )
             {
-            	isUrl = true;
+                if( attributes.getValue(0).equals("name") )
+                {
+                    isTitle = true;
+                }
+
+                else if( attributes.getValue(0).equals("url") )
+                {
+                    isUrl = true;
+                }
             }
         }
 
@@ -77,17 +86,20 @@ public class XMLParser
              if(isTitle)
              {
                 currentTitle = deleteSpecialChars( new String(ch,start,length) );
-             	parsedData.append("\t<doc>\n\t\t<field name=\"name\">").append(currentTitle).append("</field>\n");
              	isTitle = false;
              }
 
              else if(isUrl)
              {
                 currentUrl = deleteSpecialChars( new String(ch,start,length) );
-                System.out.println(" -------> " + currentUrl);
-             	parsedData.append("\t\t<field name=\"url\">").append(currentUrl).append("</field>\n\t</doc>\n\n");
              	isUrl = false;
-                crawlWithNutch();
+
+                SolrResult solrResult = new SolrResult();
+                solrResult.setTitle(currentTitle);
+                solrResult.setUrl(currentUrl);
+                solrResultSet.add(solrResult);
+
+                //crawlWithNutch();
              }
         }
 
@@ -108,8 +120,8 @@ public class XMLParser
         private void crawlWithNutch()
         {
             storeLinkInAFile(currentUrl);
-            Terminal Terminal = new Terminal("sample.sh");
-            Terminal.start();
+            Terminal Terminal = new Terminal();
+            Terminal.start("sample.sh");
             NutchResultParser nutchResultParser = new NutchResultParser();
             LinkedHashSet<String> nutchOutputUrls = nutchResultParser.start();
             storeCrawledUrls(nutchOutputUrls);

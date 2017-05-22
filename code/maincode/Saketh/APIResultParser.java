@@ -5,7 +5,6 @@ import org.xml.sax.SAXException;
 import org.xml.sax.Attributes;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
-import java.util.LinkedHashSet;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.Iterator;

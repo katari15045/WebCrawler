@@ -1,11 +1,12 @@
 import java.util.Scanner;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.util.LinkedHashSet;
 
 public class Crawler
 {
+	private static LinkedHashSet<SolrResult> solrResultSet;
 	private static String result;
-	private static HttpClient httpClient;
 
 	private static String queryString;
 	private static String format;
@@ -17,21 +18,43 @@ public class Crawler
 	public static void main(String[] args) throws Exception
 	{
 		
+		storeAPIResultsInSolr();
+		crawlWithNutch();
+	}
+
+	private static void storeAPIResultsInSolr()
+	{
 		prepareQueryString();
 		prepareUrl();
 	
-		httpClient = new HttpClient();
-		httpClient.sendGetRequest( url.toString(), "APIData.xml" );
+		HttpClient httpClient = new HttpClient();
+		httpClient.sendGetRequest( url.toString(), "api_data.xml" );
 
 		APIResultParser apiResultParser = new APIResultParser();
-		apiResultParser.parse("APIData.xml");
+		apiResultParser.parse("api_data.xml");
 
 		Terminal terminal = new Terminal();
 		terminal.start("store_api_results_in_solr.sh");
+	}
 
-		//XMLParser xmlParser = new XMLParser();
-		//String parsedData = xmlParser.parse("APIData.xml");
-		//writeDataToAFileForSolr(parsedData);
+	private static void crawlWithNutch()
+	{
+		fetchSolrResults();
+
+		NutchFeeder nutchFeeder = new NutchFeeder();
+		nutchFeeder.feed(solrResultSet, "parsed_nutch_crawl_results_for_solr.xml");
+
+		Terminal terminal = new Terminal();
+		terminal.start("store_nutch_results_in_solr.sh");	
+	}
+
+	private static void fetchSolrResults()
+	{
+		HttpClient httpClient = new HttpClient();
+		httpClient.sendGetRequest( "http://localhost:8983/solr/core_for_api_results/select?q=*:*&rows=1", "api_search_results_from_solr.xml" );
+		SolrResultsParser solrResultsParser = new SolrResultsParser();
+		solrResultsParser.parse("api_search_results_from_solr.xml");
+		solrResultSet = solrResultsParser.getResults();
 	}
 
 	private static void prepareUrl()
