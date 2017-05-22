@@ -27,9 +27,12 @@ public class Crawler
 		httpClient = new HttpClient();
 		httpClient.sendGetRequest( url.toString(), "APIData.xml" );
 
-		XMLParser xmlParser = new XMLParser();
-		String parsedData = xmlParser.parse("APIData.xml");
-		writeDataToAFileForSolr(parsedData);
+		APIResultParser apiResultParser = new APIResultParser();
+		apiResultParser.parse("APIData.xml");
+
+		//XMLParser xmlParser = new XMLParser();
+		//String parsedData = xmlParser.parse("APIData.xml");
+		//writeDataToAFileForSolr(parsedData);
 	}
 
 	private static void prepareUrl()
