@@ -108,8 +108,8 @@ public class XMLParser
         private void crawlWithNutch()
         {
             storeLinkInAFile(currentUrl);
-            ApacheNutch apacheNutch = new ApacheNutch();
-            apacheNutch.start();
+            Terminal Terminal = new Terminal("sample.sh");
+            Terminal.start();
             NutchResultParser nutchResultParser = new NutchResultParser();
             LinkedHashSet<String> nutchOutputUrls = nutchResultParser.start();
             storeCrawledUrls(nutchOutputUrls);

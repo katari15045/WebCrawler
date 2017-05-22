@@ -2,14 +2,14 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
 
-public class ApacheNutch
+public class Terminal
 {
 	private String command;
 	private StringBuilder output;
 
-	public void start()
+	public void start(String inpFile)
 	{
-		command = "bash sample.sh";
+		command = "bash " + inpFile;
 		executeCommand();
 
 		System.out.print( output.toString() );

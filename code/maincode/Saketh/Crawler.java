@@ -18,10 +18,6 @@ public class Crawler
 	{
 		
 		prepareQueryString();
-		format = "xml";
-		resultCount = "20";
-		userid = "138";
-		code  = "1461895544";
 		prepareUrl();
 	
 		httpClient = new HttpClient();
@@ -29,6 +25,9 @@ public class Crawler
 
 		APIResultParser apiResultParser = new APIResultParser();
 		apiResultParser.parse("APIData.xml");
+
+		Terminal terminal = new Terminal();
+		terminal.start("store_api_results_in_solr.sh");
 
 		//XMLParser xmlParser = new XMLParser();
 		//String parsedData = xmlParser.parse("APIData.xml");
@@ -38,6 +37,10 @@ public class Crawler
 	private static void prepareUrl()
 	{
 		url = new StringBuilder();
+		format = "xml";
+		resultCount = "20";
+		userid = "138";
+		code  = "1461895544";
 		url.append("https://www.gigablast.com/search?q=").append(queryString).append("&format=").append(format).append("&n=").append(resultCount)
 			.append("&userid=").append(userid).append("&code=").append(code);
 	}
