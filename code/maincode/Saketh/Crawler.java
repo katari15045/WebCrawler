@@ -8,7 +8,10 @@ public class Crawler
 	private static LinkedHashSet<SolrResult> solrResultSet;
 	private static String result;
 
-	private static String queryString;
+	private static String userQueryString;
+	private static Scanner scanner;
+
+	private static String parsedQueryString;
 	private static String format;
 	private static String resultCount;
 	private static String userid;
@@ -17,14 +20,26 @@ public class Crawler
 
 	public static void main(String[] args) throws Exception
 	{
-		
-		storeAPIResultsInSolr();
-		crawlWithNutch();
+		scanner = new Scanner(System.in);
+		System.out.println("Modules : \n1.store API results in Solr\n2.Feeding Nutch with Urls from Solr\n");
+		System.out.print("Module number -> ");
+		int userModuleNum = scanner.nextInt();
+
+		if( userModuleNum == 1 )
+		{
+			storeAPIResultsInSolr();
+		}
+
+		else if( userModuleNum == 2 )
+		{
+			crawlWithNutch();
+		}
 	}
 
 	private static void storeAPIResultsInSolr()
 	{
-		prepareQueryString();
+		System.out.println("\n\nModule to store API results in Solr.\n");
+		prepareparsedQueryString();
 		prepareUrl();
 	
 		HttpClient httpClient = new HttpClient();
@@ -50,8 +65,16 @@ public class Crawler
 
 	private static void fetchSolrResults()
 	{
+		System.out.println("\n\nModule for Feeding Nutch with Urls from Solr\n");
+		prepareparsedQueryString();
+
+		StringBuilder url = new StringBuilder();
+		url.append("http://localhost:8983/solr/core_for_api_results/select?q=");
+		url.append(parsedQueryString).append("&rows=").append(resultCount);
+
 		HttpClient httpClient = new HttpClient();
-		httpClient.sendGetRequest( "http://localhost:8983/solr/core_for_api_results/select?q=*:*&rows=1", "api_search_results_from_solr.xml" );
+		httpClient.sendGetRequest( url.toString(), "api_search_results_from_solr.xml" );
+
 		SolrResultsParser solrResultsParser = new SolrResultsParser();
 		solrResultsParser.parse("api_search_results_from_solr.xml");
 		solrResultSet = solrResultsParser.getResults();
@@ -61,31 +84,30 @@ public class Crawler
 	{
 		url = new StringBuilder();
 		format = "xml";
-		resultCount = "20";
 		userid = "138";
 		code  = "1461895544";
-		url.append("https://www.gigablast.com/search?q=").append(queryString).append("&format=").append(format).append("&n=").append(resultCount)
+		url.append("https://www.gigablast.com/search?q=").append(parsedQueryString).append("&format=").append(format).append("&n=").append(resultCount)
 			.append("&userid=").append(userid).append("&code=").append(code);
 	}
 
-	private static String takeUserInput()
+	private static void takeUserInput()
 	{
-		Scanner scanner = new Scanner(System.in);
-		String inpStr;
 		System.out.print("Search for -> ");
-		inpStr = scanner.nextLine();
+		scanner.nextLine();
+		userQueryString = scanner.nextLine();
 
-		return inpStr;
+		System.out.print("No.of results to be seen -> ");
+		resultCount = String.valueOf( scanner.nextInt() ) ;
 	}
 
-	private static void prepareQueryString()
+	private static void prepareparsedQueryString()
 	{
 		StringBuilder result = new StringBuilder();
 
-		String userStr = takeUserInput();
+		takeUserInput();
 		int count = 0;
 
-		for(String str:userStr.split(" "))
+		for(String str:userQueryString.split(" "))
 		{
 			if( count != 0 )
 			{
@@ -97,7 +119,7 @@ public class Crawler
 			count = count + 1;
 		}
 
-		queryString = result.toString();
+		parsedQueryString = result.toString();
 	}
 
 	private static void writeDataToAFileForSolr(String data)

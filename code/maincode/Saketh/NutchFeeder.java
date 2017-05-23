@@ -50,7 +50,7 @@ public class NutchFeeder
     {
         storeLinkInAFile(currentUrl);
         Terminal Terminal = new Terminal();
-        Terminal.start("sample.sh");
+        Terminal.start("nutch_crawl_and_prepare_dump_file.sh");
         NutchResultParser nutchResultParser = new NutchResultParser();
         LinkedHashSet<String> nutchOutputUrls = nutchResultParser.start();
         storeCrawledUrls(currentTitle, nutchOutputUrls);
