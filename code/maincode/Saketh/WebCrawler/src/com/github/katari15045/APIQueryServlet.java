@@ -31,7 +31,7 @@ public class APIQueryServlet extends HttpServlet
 		resultCount = Integer.parseInt( request.getParameter("resultCount") );
 		apiResult = apiQueryService.start(query, resultCount);
 		
-		RequestDispatcher requestDispatcher = request.getRequestDispatcher("apiResults");
+		RequestDispatcher requestDispatcher = request.getRequestDispatcher("apiResults.jsp");
 		request.setAttribute("titleSet", apiResult.getTitleSet() );
 		request.setAttribute("urlSet", apiResult.getUrlSet() );
 		requestDispatcher.forward(request, response);

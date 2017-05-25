@@ -1,5 +1,9 @@
+
+package com.github.katari15045;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+
 
 
 public class Terminal

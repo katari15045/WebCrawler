@@ -9,8 +9,8 @@
 </head>
 <body>
 	<%
-		LinkedHashSet<String> titleSet = (LinkedHashSet<String>) request.getAttribute("titleSet");
-		LinkedHashSet<String> urlSet = (LinkedHashSet<String>) request.getAttribute("urlSet");
+		LinkedHashSet<String> titleSet = (LinkedHashSet) request.getAttribute("titleSet");
+		LinkedHashSet<String> urlSet = (LinkedHashSet) request.getAttribute("urlSet");
 		Iterator<String> titleIterator = titleSet.iterator();
 		Iterator<String> urlIterator = urlSet.iterator();
 		int count = 1;
