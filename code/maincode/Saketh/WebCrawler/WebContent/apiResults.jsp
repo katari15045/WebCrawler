@@ -9,8 +9,8 @@
 </head>
 <body>
 	<%
-		LinkedHashSet<String> titleSet = (LinkedHashSet) request.getAttribute("titleSet");
-		LinkedHashSet<String> urlSet = (LinkedHashSet) request.getAttribute("urlSet");
+		LinkedHashSet<String> titleSet = (LinkedHashSet) application.getAttribute("unrefinedAPITitleSet");
+		LinkedHashSet<String> urlSet = (LinkedHashSet) application.getAttribute("unrefinedAPIURLSet");
 		Iterator<String> titleIterator = titleSet.iterator();
 		Iterator<String> urlIterator = urlSet.iterator();
 		int count = 0;
@@ -18,6 +18,7 @@
 		while( titleIterator.hasNext() )
 		{
 	%>
+	<form action="NutchFeederServlet" method="post">
 		<input type="checkbox" name="id" value="<%=count %>"> 
 		<%=titleIterator.next() %> <br>
 		<%=urlIterator.next() %> <br> <br>
@@ -27,7 +28,7 @@
 	%>
 	<br> <br>
 	
-	<form action="NutchFeederServlet" method="post">
+	
 		<input type="submit" value="Submit">
 	</form>
 </body>
