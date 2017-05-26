@@ -16,7 +16,6 @@ public class APIResultParser
         System.setProperty("jdk.xml.entityExpansionLimit", "0");
     }
 
-    private StringBuilder parsedData;
     private SAXParserFactory spf;
     private SAXParser saxParser;
     private MyHandler handler;
@@ -27,7 +26,6 @@ public class APIResultParser
 
     public APIResult parse(String file)
     {
-    	parsedData = new StringBuilder();
     	titleSet = new LinkedHashSet<String>();
     	urlSet = new LinkedHashSet<String>();
     	apiResult = new APIResult();
@@ -39,11 +37,8 @@ public class APIResultParser
             spf = SAXParserFactory.newInstance();
             saxParser = spf.newSAXParser();
             handler = new MyHandler();
-            parsedData.append("<add>\n");
             
             saxParser.parse(path.toString(),handler);
-            parsedData.append("</add>\n");
-            writeToAFile();
         }
 
         catch( Exception e )
@@ -55,24 +50,6 @@ public class APIResultParser
     	apiResult.setUrlSet(urlSet);
     	
     	return apiResult;
-    }
-
-    private void writeToAFile()
-    {
-        try
-        {
-        	StringBuilder path = new StringBuilder();
-        	path.append( System.getProperty("user.dir") ).append("/tomcat/")
-        		.append("api_results_for_solr.xml");
-            PrintWriter printWriter = new PrintWriter( path.toString() );
-            printWriter.print( parsedData.toString() );
-            printWriter.close();
-        }
-
-        catch(FileNotFoundException e)
-        {
-            e.printStackTrace();
-        }
     }
 
     private class MyHandler extends DefaultHandler
@@ -107,7 +84,6 @@ public class APIResultParser
              {
                 currentTitle = deleteSpecialChars( new String(ch,start,length) );
                 titleSet.add(currentTitle);
-             	parsedData.append("\t<doc>\n\t\t<field name=\"name\">").append(currentTitle).append("</field>\n");
              	isTitle = false;
              }
 
@@ -116,7 +92,6 @@ public class APIResultParser
                 currentUrl = deleteSpecialChars( new String(ch,start,length) );
                 System.out.println(" -------> " + currentUrl);
                 urlSet.add(currentUrl);
-             	parsedData.append("\t\t<field name=\"url\">").append(currentUrl).append("</field>\n\t</doc>\n\n");
              	isUrl = false;
              }
         }

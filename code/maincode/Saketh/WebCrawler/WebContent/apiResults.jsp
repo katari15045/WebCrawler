@@ -28,8 +28,9 @@
 	%>
 	<br> <br>
 	
-	
-		<input type="submit" value="Submit">
+		<input type="radio" name="crawlNowStatus" value="crawlNow"> Crawl now
+		<input type="radio" name="crawlNowStatus" value="crawlLater"> Crawl Later <br> <br>
+		<input type="submit" value="Submit"> 
 	</form>
 </body>
 </html>

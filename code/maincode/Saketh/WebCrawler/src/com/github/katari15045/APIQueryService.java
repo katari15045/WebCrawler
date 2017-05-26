@@ -35,9 +35,6 @@ public class APIQueryService
 
 		APIResultParser apiResultParser = new APIResultParser();
 		apiResult = apiResultParser.parse("api_data.xml");
-
-		Terminal terminal = new Terminal();
-		terminal.start("store_api_results_in_solr.sh");
 	}
 	
 	private void prepareparsedQueryString()
