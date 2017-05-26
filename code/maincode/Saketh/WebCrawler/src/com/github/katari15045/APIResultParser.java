@@ -31,6 +31,8 @@ public class APIResultParser
     	titleSet = new LinkedHashSet<String>();
     	urlSet = new LinkedHashSet<String>();
     	apiResult = new APIResult();
+    	StringBuilder path = new StringBuilder();
+    	path.append( System.getProperty("user.dir") ).append("/tomcat/").append(file);
 
     	try
         {
@@ -38,7 +40,8 @@ public class APIResultParser
             saxParser = spf.newSAXParser();
             handler = new MyHandler();
             parsedData.append("<add>\n");
-            saxParser.parse(file,handler);
+            
+            saxParser.parse(path.toString(),handler);
             parsedData.append("</add>\n");
             writeToAFile();
         }
@@ -58,7 +61,10 @@ public class APIResultParser
     {
         try
         {
-            PrintWriter printWriter = new PrintWriter("api_results_for_solr.xml");
+        	StringBuilder path = new StringBuilder();
+        	path.append( System.getProperty("user.dir") ).append("/tomcat/")
+        		.append("api_results_for_solr.xml");
+            PrintWriter printWriter = new PrintWriter( path.toString() );
             printWriter.print( parsedData.toString() );
             printWriter.close();
         }

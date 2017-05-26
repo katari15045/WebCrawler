@@ -9,7 +9,7 @@
 <body>
 	<form action="APIQueryServlet" method="post">
 		Query : <input type="text" name="query"> <br> <br>
-		Result Count : <input type="text" name="resultCount">
+		Result Count : <input type="text" name="resultCount"> <br> <br> <br>
 		<input type="submit" value="Search">
 	</form>
 </body>

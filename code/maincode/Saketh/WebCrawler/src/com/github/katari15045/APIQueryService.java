@@ -1,5 +1,7 @@
 package com.github.katari15045;
 
+import java.io.IOException;
+
 public class APIQueryService 
 {
 	private String userQueryString;
@@ -14,7 +16,7 @@ public class APIQueryService
 	private APIResult apiResult;
 	
 	
-	public APIResult start(String inpQuery, int inpCount)
+	public APIResult start(String inpQuery, int inpCount) throws IOException
 	{
 		userQueryString = inpQuery;
 		resultCount = inpCount;
@@ -23,7 +25,7 @@ public class APIQueryService
 		return apiResult;
 	}
 	
-	private void storeAPIResultsInSolr()
+	private void storeAPIResultsInSolr() throws IOException
 	{
 		prepareparsedQueryString();
 		prepareUrl();

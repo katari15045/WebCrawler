@@ -13,17 +13,22 @@
 		LinkedHashSet<String> urlSet = (LinkedHashSet) request.getAttribute("urlSet");
 		Iterator<String> titleIterator = titleSet.iterator();
 		Iterator<String> urlIterator = urlSet.iterator();
-		int count = 1;
+		int count = 0;
 	
 		while( titleIterator.hasNext() )
 		{
 	%>
-		<input type="checkbox" name="<%=count %>"> 
+		<input type="checkbox" name="id" value="<%=count %>"> 
 		<%=titleIterator.next() %> <br>
 		<%=urlIterator.next() %> <br> <br>
 	<%
 			count = count + 1;
 		}
 	%>
+	<br> <br>
+	
+	<form action="NutchFeederServlet" method="post">
+		<input type="submit" value="Submit">
+	</form>
 </body>
 </html>

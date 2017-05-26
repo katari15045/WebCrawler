@@ -7,12 +7,33 @@ echo $JAVA_HOME
 
 It is same as JAVA_HOME = JAVA_HOME + /usr/lib/jvm/java-8-openjdk-i386
 
+
 Permanent change for all users
--------------------------------
+------------------------------
 
 nano /etc/profile
-JAVA_HOME=/usr/lib/jvm/java-8-openjdk-i386
-export JAVA_HOME
+JAVA_HOME=/usr/lib/jvm/java-8-openjdk-i386 ---> at the end of the file
+export JAVA_HOME ---> at the end of the file
 
 To apply the changes, logout and login by typing the below command
 source /etc/profile
+
+permanent change for root user
+-----------------------------
+
+nano /root/.bashrc
+JAVA_HOME=/usr/lib/jvm/java-8-openjdk-i386 ---> at the end of the file
+export JAVA_HOME ---> at the end of the file
+
+To apply the changes, logout and login by typing the below command
+source /root/.bashrc
+
+permanent change for user named saketh
+--------------------------------------
+
+nano /home/saketh/.bashrc
+JAVA_HOME=/usr/lib/jvm/java-8-openjdk-i386 ---> at the end of the file
+export JAVA_HOME ---> at the end of the file
+
+To apply the changes, logout and login by typing the below command
+source /home/saketh/.bashrc

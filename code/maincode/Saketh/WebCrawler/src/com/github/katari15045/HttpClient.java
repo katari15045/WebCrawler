@@ -36,11 +36,13 @@ public class HttpClient
 		connection.setRequestMethod("GET");
 	}
 
-	private void witeAPIDataToAFile(String file) throws IOException
+	private void witeAPIDataToAFile(String inpFileName) throws IOException
 	{
 		String line;
 		StringBuilder result = new StringBuilder();
-		PrintWriter pr = new PrintWriter(file);
+		StringBuilder path = new StringBuilder();
+		path.append( System.getProperty("user.dir") ).append("/tomcat/").append(inpFileName);
+		PrintWriter pr = new PrintWriter(path.toString());
 		BufferedReader br = new BufferedReader( new InputStreamReader( connection.getInputStream() ) );
 		line = br.readLine();
 
@@ -49,8 +51,9 @@ public class HttpClient
 			result.append(line);
 			line = br.readLine();
 		}
-
+		
 		pr.print(result);
+		pr.flush();
 		pr.close();
 	}
 }

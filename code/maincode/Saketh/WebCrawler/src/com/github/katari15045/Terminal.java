@@ -13,12 +13,14 @@ public class Terminal
 
 	public void start(String inpFile)
 	{
-		command = "bash " + inpFile;
+		StringBuilder path = new StringBuilder();
+		path.append( System.getProperty("user.dir") ).append("/tomcat/").append(inpFile);
+		
+		command = "bash " + path.toString();
 		executeCommand();
 
 		System.out.print( output.toString() );
 	}
-
 	private void executeCommand()
 	{
 		Process process;
