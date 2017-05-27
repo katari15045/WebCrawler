@@ -18,7 +18,7 @@
 		while( titleIterator.hasNext() )
 		{
 	%>
-	<form action="NutchFeederServlet" method="post">
+	<form action="APIResultHandlerServlet" method="post">
 		<input type="checkbox" name="id" value="<%=count %>"> 
 		<%=titleIterator.next() %> <br>
 		<%=urlIterator.next() %> <br> <br>
@@ -27,9 +27,7 @@
 		}
 	%>
 	<br> <br>
-	
-		<input type="radio" name="crawlNowStatus" value="crawlNow"> Crawl now
-		<input type="radio" name="crawlNowStatus" value="crawlLater"> Crawl Later <br> <br>
+
 		<input type="submit" value="Submit"> 
 	</form>
 </body>

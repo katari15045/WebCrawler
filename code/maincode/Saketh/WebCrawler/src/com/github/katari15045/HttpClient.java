@@ -21,7 +21,7 @@ public class HttpClient
 		{
 			url = new URL(urlString);
 			makeConnection();
-			witeAPIDataToAFile(file);
+			witeDataToAFile(file);
 		}
 
 		catch(Exception e)
@@ -36,7 +36,7 @@ public class HttpClient
 		connection.setRequestMethod("GET");
 	}
 
-	private void witeAPIDataToAFile(String inpFileName) throws IOException
+	private void witeDataToAFile(String inpFileName) throws IOException
 	{
 		String line;
 		StringBuilder result = new StringBuilder();

@@ -8,11 +8,10 @@ import java.util.LinkedHashSet;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
-public class NutchFeederService 
+public class APIResultHandlerService 
 {
 	private ServletContext servletContext;
 	
-	private boolean crawlNowStatus;
 	private LinkedHashSet<String> unrefinedTitleSet;
 	private LinkedHashSet<String> unrefinedURLSet;
 	private String selectedIndices[];
@@ -29,23 +28,11 @@ public class NutchFeederService
 		initializeObjects();	
 		prepareNutchUrlsAndSolrAPIData();
 		storeSolrData("api_results_for_solr.xml");
-		storeNutchData();
+		storeNutchData("seed.txt");
 	}
 	
 	private void getDataFromRequest(HttpServletRequest request)
 	{
-		String tempString = request.getParameter("crawlNowStatus");
-		
-		if( tempString.equals("crawlNow") )
-		{
-			crawlNowStatus = true;
-		}
-		
-		else if( tempString.equals("crawlLater") )
-		{
-			crawlNowStatus = false;
-		}
-		
 		selectedIndices = request.getParameterValues("id");
 		servletContext = request.getServletContext();
 		unrefinedTitleSet = (LinkedHashSet<String>) servletContext.getAttribute("unrefinedAPITitleSet");
@@ -77,7 +64,11 @@ public class NutchFeederService
 			{
 				newNode.setCrawlStatus(true);
 				currentSelectedIndex = currentSelectedIndex + 1;
-				currentSelectedValue = Integer.parseInt( selectedIndices[currentSelectedIndex] );
+				
+				if( currentSelectedIndex < selectedIndices.length )
+				{
+					currentSelectedValue = Integer.parseInt( selectedIndices[currentSelectedIndex] );
+				}
 				
 				parsedNutchData.append( standardizeURLWithProtocol( newNode.getUrl() ) ).append("\n");
 			}
@@ -105,6 +96,16 @@ public class NutchFeederService
 		
 		Terminal terminal = new Terminal();
 		terminal.start("store_api_results_in_solr.sh");
+	}
+	
+	private void storeNutchData(String inpFile) throws FileNotFoundException
+	{
+		StringBuilder path = new StringBuilder();
+		path.append( System.getProperty("user.dir") ).append("/tomcat/").append(inpFile);
+		
+		PrintWriter printWriter = new PrintWriter( path.toString() );
+		printWriter.print(parsedNutchData);
+		printWriter.close();
 	}
 	
 	private void parseNodeForSolr(SolrAPINode solrAPINode)
