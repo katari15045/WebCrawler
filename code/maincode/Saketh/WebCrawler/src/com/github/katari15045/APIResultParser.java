@@ -5,8 +5,6 @@ import javax.xml.parsers.SAXParser;
 import org.xml.sax.helpers.DefaultHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.Attributes;
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
 import java.util.LinkedHashSet;
 
 public class APIResultParser
@@ -30,6 +28,7 @@ public class APIResultParser
     	urlSet = new LinkedHashSet<String>();
     	apiResult = new APIResult();
     	StringBuilder path = new StringBuilder();
+    	
     	path.append( System.getProperty("user.dir") ).append("/tomcat/").append(file);
 
     	try
@@ -90,7 +89,6 @@ public class APIResultParser
              else if(isUrl)
              {
                 currentUrl = deleteSpecialChars( new String(ch,start,length) );
-                System.out.println(" -------> " + currentUrl);
                 urlSet.add(currentUrl);
              	isUrl = false;
              }

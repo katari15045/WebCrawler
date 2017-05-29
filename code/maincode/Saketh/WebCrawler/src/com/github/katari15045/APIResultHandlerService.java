@@ -2,6 +2,8 @@ package com.github.katari15045;
 
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 
@@ -19,50 +21,57 @@ public class APIResultHandlerService
 	private Iterator<String> titleIterator;
 	private Iterator<String> urlIterator;
 	
-	private StringBuilder parsedSolrData;
 	private StringBuilder parsedNutchData;
+	private Database database;
+	private PreparedStatement preparedStatement;
 	
-	public void start(HttpServletRequest request) throws FileNotFoundException
+	
+	public void start(HttpServletRequest request) throws FileNotFoundException, ClassNotFoundException, SQLException
 	{
 		getDataFromRequest(request);
 		initializeObjects();	
-		prepareNutchUrlsAndSolrAPIData();
-		storeSolrData("api_results_for_solr.xml");
+		prepareNutchUrlsAndStoreAPIResultsInMySQL();
 		storeNutchData("seed.txt");
 	}
 	
 	private void getDataFromRequest(HttpServletRequest request)
 	{
 		selectedIndices = request.getParameterValues("id");
+		
 		servletContext = request.getServletContext();
-		unrefinedTitleSet = (LinkedHashSet<String>) servletContext.getAttribute("unrefinedAPITitleSet");
-		unrefinedURLSet= (LinkedHashSet<String>) servletContext.getAttribute("unrefinedAPIURLSet");
+		APIResult apiResult = (APIResult) servletContext.getAttribute("apiResults");
+		
+		unrefinedTitleSet = apiResult.getTitleSet();
+		unrefinedURLSet= apiResult.getUrlSet();
 	}
 	
-	private void initializeObjects()
+	private void initializeObjects() throws ClassNotFoundException, SQLException
 	{
 		titleIterator = unrefinedTitleSet.iterator();
 		urlIterator = unrefinedURLSet.iterator();
-		parsedSolrData = new StringBuilder();
 		parsedNutchData = new StringBuilder();
-		parsedSolrData.append("<add>\n");
+		database = new Database();
+		
+		database.makeConnection();
+		preparedStatement = database.getConnection().prepareStatement("CREATE TABLE IF NOT EXISTS api_results(title VARCHAR(5000) NOT NULL, url VARCHAR(3072) NOT NULL, crawl_status INT NOT NULL, PRIMARY KEY (url));");
+		database.executeUpdate(preparedStatement);
 	}
 	
-	private void prepareNutchUrlsAndSolrAPIData()
+	private void prepareNutchUrlsAndStoreAPIResultsInMySQL() throws SQLException
 	{
-		int currentIndex = 0;
-		int currentSelectedIndex = 0;
+		int currentIndex = 0, currentSelectedIndex = 0;
 		int currentSelectedValue = Integer.parseInt( selectedIndices[currentSelectedIndex] );
+		String currentUrl, currentTitle;
+		int currentCrawlStatus;
 		
 		while( titleIterator.hasNext() )
-		{
-			SolrAPINode newNode = new SolrAPINode();
-			newNode.setTitle( deleteSpecialChars(titleIterator.next() ) );
-			newNode.setUrl( deleteSpecialChars(urlIterator.next() ) );
+		{	
+			currentTitle = deleteSpecialChars(titleIterator.next() );
+			currentUrl = deleteSpecialChars(urlIterator.next() );
 			
 			if( currentSelectedValue == currentIndex )
 			{
-				newNode.setCrawlStatus(true);
+				currentCrawlStatus = 0;
 				currentSelectedIndex = currentSelectedIndex + 1;
 				
 				if( currentSelectedIndex < selectedIndices.length )
@@ -70,32 +79,27 @@ public class APIResultHandlerService
 					currentSelectedValue = Integer.parseInt( selectedIndices[currentSelectedIndex] );
 				}
 				
-				parsedNutchData.append( standardizeURLWithProtocol( newNode.getUrl() ) ).append("\n");
+				parsedNutchData.append( standardizeURLWithProtocol(currentUrl) ).append("\n");
 			}
 			
 			else
 			{
-				newNode.setCrawlStatus(false);
+				currentCrawlStatus = -1;
 			}
 			
-			parseNodeForSolr(newNode);
+			storeInMySQL(currentTitle, currentUrl, currentCrawlStatus);
 			currentIndex = currentIndex + 1;
 		}
-		
-		parsedSolrData.append("</add>\n");
 	}
 	
-	private void storeSolrData(String inpFile) throws FileNotFoundException
+	private void storeInMySQL(String title, String url, int crawlStatus) throws SQLException
 	{
-		StringBuilder path = new StringBuilder();
-		path.append( System.getProperty("user.dir") ).append("/tomcat/").append(inpFile);
+		preparedStatement = database.getConnection().prepareStatement("INSERT INTO api_results values(?, ?, ?);");
+		preparedStatement.setString(1, title);
+		preparedStatement.setString(2, url);
+		preparedStatement.setInt(3, crawlStatus);
 		
-		PrintWriter printWriter = new PrintWriter( path.toString() );
-		printWriter.print(parsedSolrData);
-		printWriter.close();
-		
-		Terminal terminal = new Terminal();
-		terminal.start("store_api_results_in_solr.sh");
+		database.executeUpdate(preparedStatement);
 	}
 	
 	private void storeNutchData(String inpFile) throws FileNotFoundException
@@ -106,14 +110,6 @@ public class APIResultHandlerService
 		PrintWriter printWriter = new PrintWriter( path.toString() );
 		printWriter.print(parsedNutchData);
 		printWriter.close();
-	}
-	
-	private void parseNodeForSolr(SolrAPINode solrAPINode)
-	{
-		parsedSolrData.append("\t<doc>\n\t\t<field name=\"name\">").append( solrAPINode.getTitle() ).append("</field>\n")
-		.append("\t\t<field name=\"url\">").append( solrAPINode.getUrl() ).append("</field>\n" )
-		.append("\t\t<field name=\"crawl_status\">").append( String.valueOf( solrAPINode.getCrawlStatus() ) )
-		.append("</field>\n\t</doc>\n\n");
 	}
 	
 	private String deleteSpecialChars(String inpString)

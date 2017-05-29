@@ -4,7 +4,7 @@ import java.io.IOException;
 
 public class APIQueryService 
 {
-	private String userQueryString;
+	private String query;
 	private int resultCount;
 	
 	private StringBuilder url;
@@ -12,21 +12,15 @@ public class APIQueryService
 	private String code;
 	private String format;
 	
-	private String parsedQueryString;
+	private String parsedQuery;
 	private APIResult apiResult;
 	
 	
 	public APIResult start(String inpQuery, int inpCount) throws IOException
 	{
-		userQueryString = inpQuery;
+		query = inpQuery;
 		resultCount = inpCount;
-		storeAPIResultsInSolr();
 		
-		return apiResult;
-	}
-	
-	private void storeAPIResultsInSolr() throws IOException
-	{
 		prepareparsedQueryString();
 		prepareUrl();
 	
@@ -35,6 +29,8 @@ public class APIQueryService
 
 		APIResultParser apiResultParser = new APIResultParser();
 		apiResult = apiResultParser.parse("api_data.xml");
+		
+		return apiResult;
 	}
 	
 	private void prepareparsedQueryString()
@@ -42,7 +38,7 @@ public class APIQueryService
 		StringBuilder result = new StringBuilder();
 		int count = 0;
 
-		for(String str:userQueryString.split(" "))
+		for(String str:query.split(" "))
 		{
 			if( count != 0 )
 			{
@@ -54,7 +50,7 @@ public class APIQueryService
 			count = count + 1;
 		}
 
-		parsedQueryString = result.toString();
+		parsedQuery = result.toString();
 	}
 	
 	private void prepareUrl()
@@ -63,7 +59,7 @@ public class APIQueryService
 		format = "xml";
 		userid = "138";
 		code  = "1461895544";
-		url.append("https://www.gigablast.com/search?q=").append(parsedQueryString).append("&format=").append(format).append("&n=").append(resultCount)
+		url.append("https://www.gigablast.com/search?q=").append(parsedQuery).append("&format=").append(format).append("&n=").append(resultCount)
 			.append("&userid=").append(userid).append("&code=").append(code);
 	}
 }

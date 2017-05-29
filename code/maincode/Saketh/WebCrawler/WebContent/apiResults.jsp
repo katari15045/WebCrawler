@@ -1,3 +1,4 @@
+<%@page import="com.github.katari15045.APIResult"%>
 <%@page import="java.util.LinkedHashSet,java.util.Iterator"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
@@ -9,10 +10,12 @@
 </head>
 <body>
 	<%
-		LinkedHashSet<String> titleSet = (LinkedHashSet) application.getAttribute("unrefinedAPITitleSet");
-		LinkedHashSet<String> urlSet = (LinkedHashSet) application.getAttribute("unrefinedAPIURLSet");
+		APIResult apiResult = (APIResult) application.getAttribute("apiResults");
+		LinkedHashSet<String> titleSet = apiResult.getTitleSet();
+		LinkedHashSet<String> urlSet = apiResult.getUrlSet();
 		Iterator<String> titleIterator = titleSet.iterator();
 		Iterator<String> urlIterator = urlSet.iterator();
+		
 		int count = 0;
 	
 		while( titleIterator.hasNext() )

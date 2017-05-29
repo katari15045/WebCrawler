@@ -28,16 +28,22 @@ public class APIQueryServlet extends HttpServlet
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
+		getUserData(request);
+		
 		apiQueryService = new APIQueryService();
-		query = request.getParameter("query");
-		resultCount = Integer.parseInt( request.getParameter("resultCount") );
 		apiResult = apiQueryService.start(query, resultCount);
+		
 		servletContext = request.getServletContext();
+		servletContext.setAttribute("apiResults", apiResult);
 		
 		RequestDispatcher requestDispatcher = request.getRequestDispatcher("apiResults.jsp");
-		servletContext.setAttribute("unrefinedAPITitleSet", apiResult.getTitleSet() );
-		servletContext.setAttribute("unrefinedAPIURLSet", apiResult.getUrlSet() );
 		requestDispatcher.forward(request, response);
+	}
+	
+	private void getUserData(HttpServletRequest request)
+	{
+		query = request.getParameter("query");
+		resultCount = Integer.parseInt( request.getParameter("resultCount") );
 	}
 
 }
