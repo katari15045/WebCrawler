@@ -1,35 +1,3 @@
-
-Stand-alone indexing & searching in Solr
-----------------------------------------
-
-Indexing
---------
-Don't do sudo -i
-1. $ cd /opt/solr-6.5.1
-2. $ sudo mkdir indexFiles
-3. $ sudo cp example/exampledocs/money.xml indexFiles/
-     You can also get this money.xml from here along with this readme.txt
-4. $ sudo -u solr bin/solr create_core -c temp_core
-     Newly created core can be seen at /var/solr/data
-5. $ bin/post -c temp_core indexFiles/
-     Now, the files present in indexFiles have been indexed
-
-Searching
----------
-1. Type http://localhost:8983/solr/temp_core/select?q=*:* on your browser
-   This displays all the indexed data in temp_core
-2. Type http://localhost:8983/solr/temp_core/select?q=america on your browser
-   This displays the data which has America in it
-
-Note : Same can be achieved from terminal using $ curl http://localhost:8983/solr/temp_core/select?q=america
-
-
--------------------------------------------------------------------------------------------------------------------------------------
-
-
-Indexing from Nutch after configuring solrindex-mapping.xml
------------------------------------------------------------
-
 Configuring Nutch
 -----------------
 1. $ vim $NUTCH_HOME/conf/solrindex-mapping.xml
@@ -76,6 +44,14 @@ Indexer: number of documents indexed, deleted, or skipped:
 Indexer:      1  indexed (add/update)
 Indexer: finished at 2017-06-06 21:43:49, elapsed: 00:00:03
 
------------------------------------------------------------------------------------------------------------------------------------------------
+Searching
+---------
+Type http://localhost:8983/solr/temp_core/select?q=*:* on your browser
+
+Verdict
+-------
+Tested - but got only one result for http://explorelinux.github.io
+
+------------------------------------------------------------------------------------------------------------------------------------------------
 
 source : https://stackoverflow.com/questions/43757606/nutch-1-13-index-links-configuration
