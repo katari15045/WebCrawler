@@ -1,0 +1,17 @@
+
+Motivation
+----------
+1. $ cd $SOLR_HOME
+2. $ bin/solr restart
+3. The above command may give something similar to ->  Solr home directory /home/saketh/Software/solr/solr-6.5.1 must contain a solr.xml file!
+
+Configuration
+-------------
+1. $ cd $SOLR_HOME
+2. $ cp ./server/solr/solr.xml .
+
+Result
+------
+Now you can restart Solr by
+1. $ cd $SOLR_HOME
+2. $ bin/solr restart
