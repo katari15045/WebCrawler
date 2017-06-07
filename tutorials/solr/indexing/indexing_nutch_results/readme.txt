@@ -7,6 +7,8 @@ Configuring Nutch
 3. $ vim $NUTCH_HOME/conf/nutch-site.xml
 4. In the property named plugin.includes the indexer should be solr not elasticSearch. The entire line looks as follows
 	<value>protocol-http|urlfilter-regex|parse-(html|tika)|index-(basic|anchor)|indexer-solr|scoring-opic|urlnormalizer-(pass|regex|basic)</value>
+5. To see outlinks in solr index, in the same line as mentioned above, add links to index(index-(basic|anchor|links)) and the entire line is 
+	<value>protocol-http|urlfilter-regex|parse-(html|tika)|index-(basic|anchor|links)|indexer-solr|scoring-opic|urlnormalizer-(pass|regex|basic)</value>
 
 configuring Solr
 ---------------
