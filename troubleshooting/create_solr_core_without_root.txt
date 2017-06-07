@@ -1,0 +1,15 @@
+Intro
+-----
+The following error may occur when you try to create a Solr core without root
+
+Error
+-----
+1. $ cd $SOLR_HOME
+2. $ bin/solr create_core -c tem_core $ then you may get
+	ERROR: Failed to create new core instance directory: /var/solr/data/temp_core
+
+Solution
+--------
+1. $ bin/solr restart
+
+Note : If you couldn't able to restart then see the configuration directory.
