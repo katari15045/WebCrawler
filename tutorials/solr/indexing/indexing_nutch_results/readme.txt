@@ -35,6 +35,4 @@ Getting just meta_data of seed url but not the metadata of each seed url
 1. You need to increase the number of rounds Nutch crawls to 2 as by default it is set to 1
 2. Where to increase it? -> Search for that in $NUTCH_HOME/nutch-site.xml (or) pass it as argument in one of the commands(inject, generate, fetch, parse, updatedb, invertlinks, index) (or) try understanding -topN argument
 
-------------------------------------------------------------------------------------------------------------------------------------------------
-
-source : https://stackoverflow.com/questions/43757606/nutch-1-13-index-links-configuration
+-----------------------------------------------------------------------------------------------------------------------------------------------
