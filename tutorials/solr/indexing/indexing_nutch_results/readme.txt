@@ -1,23 +1,3 @@
-Configuring Nutch
------------------
-1. $ vim $NUTCH_HOME/conf/solrindex-mapping.xml
-2. $ Add the following
-	<field dest="inlinks" source="inlinks"/>
-	<field dest="outlinks" source="outlinks"/>
-3. $ vim $NUTCH_HOME/conf/nutch-site.xml
-4. In the property named plugin.includes the indexer should be solr not elasticSearch. The entire line looks as follows
-	<value>protocol-http|urlfilter-regex|parse-(html|tika)|index-(basic|anchor)|indexer-solr|scoring-opic|urlnormalizer-(pass|regex|basic)</value>
-5. To see outlinks in solr index, in the same line as mentioned above, add links to index(index-(basic|anchor|links)) and the entire line is 
-	<value>protocol-http|urlfilter-regex|parse-(html|tika)|index-(basic|anchor|links)|indexer-solr|scoring-opic|urlnormalizer-(pass|regex|basic)</value>
-
-configuring Solr
----------------
-1. $ cd $SOLR_HOME
-2. If temp_core exists then
-	$ bin/solr delete -c temp_core
-3. $ bin/solr create_core -c temp_core
-4. bin/solr restart
-
 Indexing Nutch Results
 ---------------------
 1. $ cd $NUTCH_HOME
