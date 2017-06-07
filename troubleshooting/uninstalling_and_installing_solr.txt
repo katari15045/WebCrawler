@@ -1,0 +1,33 @@
+Intro
+-----
+The following error may occur when you try to install Solr after uninstalling Solr
+
+Error
+-----
+When you type $ sudo bash install_solr_service.sh ../solr-6.5.1.tgz $ to install solr you may get
+
+Job for solr.service failed because the control process exited with error code. See "systemctl status solr.service" and "journalctl -xe" for details.
+● solr.service - LSB: Controls Apache Solr as a Service
+   Loaded: loaded (/etc/init.d/solr; bad; vendor preset: enabled)
+   Active: failed (Result: exit-code) since Wed 2017-06-07 18:04:41 IST; 5s ago
+     Docs: man:systemd-sysv-generator(8)
+  Process: 15761 ExecStart=/etc/init.d/solr start (code=exited, status=1/FAILURE)
+
+Jun 07 18:04:40 Thinkpad systemd[1]: Starting LSB: Controls Apache Solr as a Service...
+Jun 07 18:04:40 Thinkpad su[15763]: Successful su for solr by root
+Jun 07 18:04:40 Thinkpad su[15763]: + ??? root:solr
+Jun 07 18:04:40 Thinkpad su[15763]: pam_unix(su:session): session opened for user solr by (uid=0)
+Jun 07 18:04:41 Thinkpad solr[15761]: Port 8983 is already being used by another process (pid: 14838)
+Jun 07 18:04:41 Thinkpad solr[15761]: Please choose a different port using the -p option.
+Jun 07 18:04:41 Thinkpad systemd[1]: solr.service: Control process exited, code=exited status=1
+Jun 07 18:04:41 Thinkpad systemd[1]: Failed to start LSB: Controls Apache Solr as a Service.
+Jun 07 18:04:41 Thinkpad systemd[1]: solr.service: Unit entered failed state.
+Jun 07 18:04:41 Thinkpad systemd[1]: solr.service: Failed with result 'exit-code'.
+
+Solution
+--------
+1. See the error carefully, you just need to kill the process that is already using the port 8983 & the pid is also provided. So type $ kill -9 14838
+
+Note : The PID may be different in your case, so read the error message carefully to get the PID
+
+2. Now Uninstall Solr and install it
