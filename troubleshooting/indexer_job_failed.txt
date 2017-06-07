@@ -1,0 +1,12 @@
+Intro
+-----
+Say you are running bin/crawl command and now while indexing in Solr core you may get an exception
+
+Error
+-----
+When you type $ bin/crawl -i -D solr.server.url=https://localhost:8983/solr/temp_core urls/seed.txt crawl 2 $ you may get
+	Indexer: java.io.IOException: Job failed!
+
+Solution
+--------
+It should be 'http' not 'https' in solr.server.url=https://localhost:8983/solr/temp_core
