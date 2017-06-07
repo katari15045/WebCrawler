@@ -50,9 +50,10 @@ Searching
 ---------
 Type http://localhost:8983/solr/temp_core/select?q=*:* on your browser
 
-Verdict
--------
-Tested - but got only one result for http://explorelinux.github.io
+Getting just meta_data of seed url but not the metadata of each seed url
+------------------------------------------------------------------------
+1. You need to increase the number of rounds Nutch crawls to 2 as by default it is set to 1
+2. Where to increase it? -> Search for that in $NUTCH_HOME/nutch-site.xml (or) pass it as argument in one of the commands(inject, generate, fetch, parse, updatedb, invertlinks, index) (or) try understanding -topN argument
 
 ------------------------------------------------------------------------------------------------------------------------------------------------
 
