@@ -1,0 +1,1 @@
+1. Need to remove some prepositions(in, at, on etc) in the query that user enters. Reason being, Solr searches for each word that user enters and if 'in' is not removed then Solr gives us the results that may only contain 'in'
