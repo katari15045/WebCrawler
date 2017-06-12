@@ -1,1 +1,1 @@
-https://stackoverflow.com/questions/43757606/nutch-1-13-index-links-configuration
+https://stackoverflow.com/questions/40354313/apache-nutch-1-12-with-apache-solr-6-2-1-give-an-error -> error in clean job of Nutch
