@@ -1,0 +1,42 @@
+
+Motivation
+----------
+1. $ cd $SOLR_HOME
+   $ bin/solr restart
+   The above command may give something similar to ->  Solr home directory /home/saketh/Software/solr/solr-6.5.1 must contain a solr.xml file!
+
+2. Say you are indexing some document in Solr core and the document has content > 32KB then Solr can't index your document because Solr can store upto 32KB in a 'string' field type. Due to this, on running -
+	$ bin/crawl -i -D solr.server.url=http://localhost:8983/solr/temp_core urls/seed.txt crawl 2
+-> You may notice the below exception -
+	Indexer: java.io.IOException: Job failed!
+-> and the below lines in $NUTCH_HOME/logs/hadoop.log file -
+	Document contains at least one immense term in field="content" (whose UTF8 encoding is longer than the max length 32766), all of which were skipped.  Please correct the analyzer to not produce such terms. The prefix of the first immense term is: '[99, 111, 112, 101, 114, 116, 105, 110, 97, 32, 105, 110, 102, 111, 114, 109, 97, 122, 105, 111, 110, 105, 32, 113, 117, 101, 115, 116, 111, 32]...', original message: bytes can be at most 32766 in length; got 226781
+
+Restarting Solr
+---------------
+1. $ cd $SOLR_HOME
+2. $ cp ./server/solr/solr.xml .
+
+
+Indexing doc.s with 'content' > 32KB
+------------------------------------
+1. Open  $SOLR_HOME/server/solr/configsets/basic_configs/conf/solrconfig.xml on Sublime text
+2. Search for 'defaultFieldType'
+3. Replace 'strings' with 'text_general'(without quotes), save it and close it.
+4. Similarly, repeat it for $SOLR_HOME/server/solr/configsets/data_driven_schema_configs/conf/solrconfig.xml
+5. Restart solr.
+
+
+Result
+------
+1. Now you can restart Solr by
+ $ cd $SOLR_HOME
+ $ bin/solr restart
+
+2. Now you can index the doc.s whose content is > 32KB
+
+
+
+
+
+
