@@ -2,6 +2,7 @@ Intro
 -----
 Solr Indexer is used instead of elastic search. 
 Links(Outlinks) are also indexed in Solr.
+Upper limit of some properties is relaxed
 
 Configuration
 -------------
@@ -20,3 +21,9 @@ In the 'value' tags add 'links' to 'index'
 With the above 2 changes it should look like
 
 <value>protocol-http|urlfilter-regex|parse-(html|tika)|index-(basic|anchor|links)|indexer-solr|scoring-opic|urlnormalizer-(pass|regex|basic)</value>
+
+Limit
+-----
+1. In the same file search for limit
+2. Make -1 as the value for file.content.limit, http.content.limit & ftp.content.limit
+	<value>-1</value>

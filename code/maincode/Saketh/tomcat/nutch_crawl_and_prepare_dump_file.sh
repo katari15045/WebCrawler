@@ -1,12 +1,12 @@
-sudo cp seed.txt /opt/apache-nutch-1.13/urls/
-cd /opt/apache-nutch-1.13/
-sudo rm -rf crawl
-sudo -E bin/nutch inject crawl/crawldb urls/
-sudo -E bin/nutch generate crawl/crawldb crawl/segments
-sudo -E bin/nutch fetch crawl/segments/*
-sudo -E bin/nutch parse crawl/segments/*
-sudo -E bin/nutch updatedb crawl/crawldb crawl/segments/*
-sudo -E bin/nutch invertlinks crawl/linkdb crawl/segments/*
-rm -rf output
-mkdir output
-sudo -E bin/nutch readseg -dump crawl/segments/20*/ output -nocontent -nofetch - nogenerate -noparsedata -noparsetext
+cp ~/seed.txt $NUTCH_HOME/urls
+cd /$NUTCH_HOME
+
+if [ -d "crawl" ]
+then
+	rm -rf crawl
+	echo "crawl directory removed!!!"
+fi
+
+echo "Nutch Crawl Starts"
+bin/crawl -i -D solr.server.url=http://localhost:8983/solr/temp_core urls/seed.txt crawl/ 2
+echo "Nutch Crawl Ends"
