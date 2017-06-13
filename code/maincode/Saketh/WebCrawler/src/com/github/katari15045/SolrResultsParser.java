@@ -14,16 +14,13 @@ public class SolrResultsParser
         System.setProperty("jdk.xml.entityExpansionLimit", "0");
     }
 
-    private StringBuilder parsedData;
     private SAXParserFactory spf;
     private SAXParser saxParser;
     private MyHandler handler;
     private LinkedHashSet<SolrResult> solrResultSet;
 
-    public String parse(String file)
+    public LinkedHashSet<SolrResult> parse(String file)
     {
-    	parsedData = new StringBuilder();
-
     	try
         {
             spf = SAXParserFactory.newInstance();
@@ -38,11 +35,6 @@ public class SolrResultsParser
             e.printStackTrace();
         }
 
-        return parsedData.toString();
-    }
-
-    public LinkedHashSet<SolrResult> getResults()
-    {
         return solrResultSet;
     }
 
@@ -50,13 +42,16 @@ public class SolrResultsParser
     {
         private boolean isTitle;
         private boolean isUrl;
+        private boolean isContent;
         private String currentTitle;
         private String currentUrl;
+        private String currentContent;
 
         public MyHandler()
         {
             isTitle = false;
             isUrl = false;
+            isContent = false;
         }
 
         public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException 
@@ -64,7 +59,7 @@ public class SolrResultsParser
 
             if( attributes.getValue(0) != null )
             {
-                if( attributes.getValue(0).equals("name") )
+                if( attributes.getValue(0).equals("title") )
                 {
                     isTitle = true;
                 }
@@ -73,6 +68,11 @@ public class SolrResultsParser
                 {
                     isUrl = true;
                 }
+                
+                else if( attributes.getValue(0).equals("content") )
+                {
+                    isContent = true;
+                }
             }
         }
 
@@ -80,38 +80,43 @@ public class SolrResultsParser
         {
              if(isTitle)
              {
-                currentTitle = deleteSpecialChars( new String(ch,start,length) );
+                currentTitle = new String(ch,start,length);
              	isTitle = false;
              }
 
              else if(isUrl)
              {
-                currentUrl = deleteSpecialChars( new String(ch,start,length) );
+                currentUrl = new String(ch,start,length);
              	isUrl = false;
-
-                SolrResult solrResult = new SolrResult();
-                solrResult.setTitle(currentTitle);
-                solrResult.setUrl(currentUrl);
-                solrResultSet.add(solrResult);
-
-                //crawlWithNutch();
+             }
+             
+             else if(isContent)
+             {
+            	 currentContent = new String(ch,start,length);
+            	 
+            	 if( currentTitle.equals( currentContent.substring(0, currentTitle.length() ) ) )
+            	 {
+            		 System.out.println("Inside equal");
+            		 System.out.println(currentContent);
+            		 currentContent = currentContent.substring( currentTitle.length() ,currentContent.length() );
+            		 System.out.println(currentContent + "\n");
+            	 }
+            	 
+            	 if( currentContent.length() > 150 )
+            	 {
+            		 currentContent = currentContent.substring(0, 151);
+            		 currentContent = currentContent + "...";
+            	 }
+            	 
+            	 isContent = false;
+            	 
+            	 SolrResult solrResult = new SolrResult();
+                 solrResult.setTitle(currentTitle);
+                 solrResult.setUrl(currentUrl);
+                 solrResult.setContent(currentContent);
+                 solrResultSet.add(solrResult);
              }
         }
-
-        private String deleteSpecialChars(String inpString)
-        {
-        	StringBuilder stringBuilder = new StringBuilder(inpString);
-        	int index = stringBuilder.indexOf("&");
-
-        	while( index >= 0 )
-        	{
-        		stringBuilder.deleteCharAt(index);
-        		index = stringBuilder.indexOf("&");
-        	}
-
-        	return stringBuilder.toString();
-        }
-
  
     }
 

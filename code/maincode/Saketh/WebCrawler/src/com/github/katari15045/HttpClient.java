@@ -42,7 +42,7 @@ public class HttpClient
 		StringBuilder result = new StringBuilder();
 		StringBuilder path = new StringBuilder();
 		
-		path.append( System.getProperty("user.dir") ).append("/tomcat/").append(inpFileName);
+		path.append( System.getProperty("user.dir") ).append("/").append(inpFileName);
 		PrintWriter pr = new PrintWriter(path.toString());
 		
 		BufferedReader br = new BufferedReader( new InputStreamReader( connection.getInputStream() ) );

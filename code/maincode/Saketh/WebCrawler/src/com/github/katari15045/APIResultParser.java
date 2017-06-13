@@ -29,7 +29,7 @@ public class APIResultParser
     	apiResult = new APIResult();
     	StringBuilder path = new StringBuilder();
     	
-    	path.append( System.getProperty("user.dir") ).append("/tomcat/").append(file);
+    	path.append( System.getProperty("user.dir") ).append("/").append(file);
 
     	try
         {

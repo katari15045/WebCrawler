@@ -43,52 +43,6 @@ public class Crawler
 		terminal.start("store_nutch_results_in_solr.sh");	
 	}
 
-	private static void fetchSolrResults()
-	{
-		System.out.println("\n\nModule for Feeding Nutch with Urls from Solr\n");
-		prepareparsedQueryString();
-
-		StringBuilder url = new StringBuilder();
-		url.append("http://localhost:8983/solr/core_for_api_results/select?q=");
-		url.append(parsedQueryString).append("&rows=").append(resultCount);
-
-		HttpClient httpClient = new HttpClient();
-		httpClient.sendGetRequest( url.toString(), "api_search_results_from_solr.xml" );
-
-		SolrResultsParser solrResultsParser = new SolrResultsParser();
-		solrResultsParser.parse("api_search_results_from_solr.xml");
-		solrResultSet = solrResultsParser.getResults();
-	}
-
-	private static void takeUserInput()
-	{
-		System.out.print("Search for -> ");
-		scanner.nextLine();
-		userQueryString = scanner.nextLine();
-
-		System.out.print("No.of results to be seen -> ");
-		resultCount = String.valueOf( scanner.nextInt() ) ;
-	}
-
-	private static void prepareparsedQueryString()
-	{
-		StringBuilder result = new StringBuilder();
-
-		takeUserInput();
-		int count = 0;
-
-		for(String str:userQueryString.split(" "))
-		{
-			if( count != 0 )
-			{
-				result.append("%20");
-			}
-
-			result.append(str);
-
-			count = count + 1;
-		}
-
-		parsedQueryString = result.toString();
-	}
+	
+	
 }

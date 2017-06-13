@@ -26,12 +26,14 @@ public class APIResultHandlerService
 	private PreparedStatement preparedStatement;
 	
 	
-	public void start(HttpServletRequest request) throws FileNotFoundException, ClassNotFoundException, SQLException
+	public String[] start(HttpServletRequest request) throws FileNotFoundException, ClassNotFoundException, SQLException
 	{
 		getDataFromRequest(request);
 		initializeObjects();	
 		prepareNutchUrlsAndStoreAPIResultsInMySQL();
 		storeNutchData("seed.txt");
+		
+		return selectedIndices;
 	}
 	
 	private void getDataFromRequest(HttpServletRequest request)
@@ -105,7 +107,7 @@ public class APIResultHandlerService
 	private void storeNutchData(String inpFile) throws FileNotFoundException
 	{
 		StringBuilder path = new StringBuilder();
-		path.append( System.getProperty("user.dir") ).append("/tomcat/").append(inpFile);
+		path.append( System.getProperty("user.dir") ).append("/").append(inpFile);
 		
 		PrintWriter printWriter = new PrintWriter( path.toString() );
 		printWriter.print(parsedNutchData);

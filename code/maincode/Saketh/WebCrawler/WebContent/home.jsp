@@ -7,8 +7,10 @@
 <title>Home</title>
 </head>
 <body>
-	<form action="NutchCrawlServlet" method="post">
-		<input type="submit" value="Nutch Crawl">
+	<form action="SolrSearchServlet" method="post">
+		Query : <input type="text" name="query"> <br> <br>
+		Max Result Count : <input type="text" name="maxResultCount"> <br> <br>
+		<input type="submit" value="Search">
 	</form>
 </body>
 </html>

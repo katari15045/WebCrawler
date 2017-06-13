@@ -1,7 +1,7 @@
 package com.github.katari15045;
 
 import java.io.IOException;
-import java.sql.SQLException;
+import java.util.LinkedHashSet;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -10,13 +10,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/NutchCrawlServlet")
-public class NutchCrawlServlet extends HttpServlet 
+@WebServlet("/SolrSearchServlet")
+public class SolrSearchServlet extends HttpServlet 
 {
 	private static final long serialVersionUID = 1L;
-	private NutchCrawlService nutchCrawlService;
-	private RequestDispatcher requestDispatcher;
-       
+	private SolrSearchService solrSearchService;
+	private LinkedHashSet<SolrResult> solrResultSet;
+
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
 		doPost(request, response);
@@ -24,24 +24,11 @@ public class NutchCrawlServlet extends HttpServlet
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
-		nutchCrawlService = new NutchCrawlService();
+		solrSearchService = new SolrSearchService();
+		solrResultSet = solrSearchService.start(request);
 		
-		try
-		{
-			nutchCrawlService.start(request, response);
-		}
-		
-		catch (ClassNotFoundException e) 
-		{
-			e.printStackTrace();
-		}
-		
-		catch (SQLException e) 
-		{
-			e.printStackTrace();
-		}
-		
-		requestDispatcher = request.getRequestDispatcher("home.jsp");
+		request.setAttribute("solrResultSet", solrResultSet);
+		RequestDispatcher requestDispatcher = request.getRequestDispatcher("solrResults.jsp");
 		requestDispatcher.forward(request, response);
 	}
 

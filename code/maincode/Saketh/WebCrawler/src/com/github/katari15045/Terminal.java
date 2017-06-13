@@ -14,14 +14,14 @@ public class Terminal
 	public void start(String inpFile)
 	{
 		StringBuilder path = new StringBuilder();
-		path.append( System.getProperty("user.dir") ).append("/tomcat/").append(inpFile);
+		path.append( System.getProperty("user.dir") ).append("/").append(inpFile);
 		
 		command = "bash " + path.toString();
 		System.out.println("Executing " + path.toString() + "..." );
 		executeCommand();
 		
 		System.out.println("------------------------------\nTerminal starts\n------------------------------\n");
-		System.out.print( output.toString() );
+		//System.out.print( output.toString() );
 		System.out.println("------------------------------\nTerminal ends\n------------------------------\n");
 	}
 	private void executeCommand()
@@ -43,6 +43,7 @@ public class Terminal
 			{
 				output.append(currentLine);
 				output.append("\n");
+				System.out.println(currentLine);
 				currentLine = bufferedReader.readLine();
 			}
 

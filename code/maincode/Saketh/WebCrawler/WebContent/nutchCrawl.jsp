@@ -4,13 +4,11 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Nutch Search</title>
+<title>Nutch Crawl</title>
 </head>
 <body>
-	<form action="NutchSearchServlet" method="post">
-		Query : <input type="text" name="query"> <br> <br>
-		Max Result Count : <input type="text" name="maxResultCount"> <br> <br>
-		<input type="submit" value="search">
+	<form action="NutchCrawlServlet" method="post">
+		<input type="submit" value="Start Nutch Crawl">
 	</form>
 </body>
 </html>
