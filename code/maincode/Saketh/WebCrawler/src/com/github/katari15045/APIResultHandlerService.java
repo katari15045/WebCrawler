@@ -92,6 +92,8 @@ public class APIResultHandlerService
 			storeInMySQL(currentTitle, currentUrl, currentCrawlStatus);
 			currentIndex = currentIndex + 1;
 		}
+		
+		database.closeConnection();
 	}
 	
 	private void storeInMySQL(String title, String url, int crawlStatus) throws SQLException

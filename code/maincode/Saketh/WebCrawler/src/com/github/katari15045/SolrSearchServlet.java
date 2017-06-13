@@ -1,6 +1,7 @@
 package com.github.katari15045;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.LinkedHashSet;
 
 import javax.servlet.RequestDispatcher;
@@ -25,7 +26,16 @@ public class SolrSearchServlet extends HttpServlet
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
 		solrSearchService = new SolrSearchService();
-		solrResultSet = solrSearchService.start(request);
+		
+		try
+		{
+			solrResultSet = solrSearchService.start(request);
+		}
+		
+		catch (ClassNotFoundException | SQLException e) 
+		{
+			e.printStackTrace();
+		}
 		
 		request.setAttribute("solrResultSet", solrResultSet);
 		RequestDispatcher requestDispatcher = request.getRequestDispatcher("solrResults.jsp");
