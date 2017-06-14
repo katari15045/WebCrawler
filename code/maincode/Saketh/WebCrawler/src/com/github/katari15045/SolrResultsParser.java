@@ -94,12 +94,12 @@ public class SolrResultsParser
              {
             	 currentContent = new String(ch,start,length);
             	 
-            	 if( currentTitle.equals( currentContent.substring(0, currentTitle.length() ) ) )
+            	 if( currentContent.length() > currentTitle.length() )
             	 {
-            		 System.out.println("Inside equal");
-            		 System.out.println(currentContent);
-            		 currentContent = currentContent.substring( currentTitle.length() ,currentContent.length() );
-            		 System.out.println(currentContent + "\n");
+            		 if( currentTitle.equals( currentContent.substring(0, currentTitle.length() ) ) )
+                	 {
+                		 currentContent = currentContent.substring( currentTitle.length() ,currentContent.length() );
+                	 }
             	 }
             	 
             	 if( currentContent.length() > 150 )

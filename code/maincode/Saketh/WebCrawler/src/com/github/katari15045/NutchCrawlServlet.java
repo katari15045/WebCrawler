@@ -41,7 +41,10 @@ public class NutchCrawlServlet extends HttpServlet
 			e.printStackTrace();
 		}
 		
-		requestDispatcher = request.getRequestDispatcher("home.jsp");
+		request.setAttribute("defaultQuery", "");
+		request.setAttribute("defaultMaxResultCount", "");
+		request.setAttribute("canIDisplayResults", false);
+		requestDispatcher = request.getRequestDispatcher("solrSearch.jsp");
 		requestDispatcher.forward(request, response);
 	}
 

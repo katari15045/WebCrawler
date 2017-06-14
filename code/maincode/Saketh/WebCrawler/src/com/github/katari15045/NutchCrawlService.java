@@ -1,16 +1,17 @@
 package com.github.katari15045;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class NutchCrawlService 
 {
-	private String[] crawledUrls;
 	private Database database;
 	
 	public void start(HttpServletRequest request, HttpServletResponse response) throws IOException, ClassNotFoundException, SQLException
@@ -18,30 +19,31 @@ public class NutchCrawlService
 		Terminal terminal = new Terminal();
 		terminal.start("nutch_crawl_and_index_results.sh");
 		
-		updateCrawlStatusOfCrawledUrls(request);
+		updateCrawlStatusOfCrawledUrls();
 	}
 	
-	private void updateCrawlStatusOfCrawledUrls(HttpServletRequest request) throws ClassNotFoundException, SQLException
+	private void updateCrawlStatusOfCrawledUrls() throws ClassNotFoundException, SQLException, FileNotFoundException, IOException
 	{
 		initializeDatabase();
-		getCrawledUrls(request);
 		
-		for (String url : crawledUrls) 
+		FileReader fileReader = new FileReader("seed.txt");
+		BufferedReader bufferedReader = new BufferedReader(fileReader);
+		String currentUrl = bufferedReader.readLine();
+
+		while( currentUrl != null )
 		{
-			updateCrawlStatus(url);
+			updateCrawlStatus(currentUrl);
+			currentUrl = bufferedReader.readLine();
 		}
+
+		fileReader.close();
+		bufferedReader.close();
 	}
 	
 	private void initializeDatabase() throws ClassNotFoundException, SQLException
 	{
 		database = new Database();
 		database.makeConnection();
-	}
-	
-	private void getCrawledUrls(HttpServletRequest request)
-	{
-		ServletContext servletContext = request.getServletContext();
-		crawledUrls = (String[]) servletContext.getAttribute("selectedUrls");
 	}
 	
 	private void updateCrawlStatus(String url) throws SQLException

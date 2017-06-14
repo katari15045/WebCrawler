@@ -26,14 +26,12 @@ public class APIResultHandlerService
 	private PreparedStatement preparedStatement;
 	
 	
-	public String[] start(HttpServletRequest request) throws FileNotFoundException, ClassNotFoundException, SQLException
+	public void start(HttpServletRequest request) throws FileNotFoundException, ClassNotFoundException, SQLException
 	{
 		getDataFromRequest(request);
 		initializeObjects();	
 		prepareNutchUrlsAndStoreAPIResultsInMySQL();
 		storeNutchData("seed.txt");
-		
-		return selectedIndices;
 	}
 	
 	private void getDataFromRequest(HttpServletRequest request)
@@ -89,7 +87,7 @@ public class APIResultHandlerService
 				currentCrawlStatus = -1;
 			}
 			
-			storeInMySQL(currentTitle, currentUrl, currentCrawlStatus);
+			storeInMySQL(currentTitle, standardizeURLWithProtocol(currentUrl), currentCrawlStatus);
 			currentIndex = currentIndex + 1;
 		}
 		

@@ -38,7 +38,10 @@ public class SolrSearchServlet extends HttpServlet
 		}
 		
 		request.setAttribute("solrResultSet", solrResultSet);
-		RequestDispatcher requestDispatcher = request.getRequestDispatcher("solrResults.jsp");
+		request.setAttribute("canIDisplayResults", true);
+		request.setAttribute("defaultQuery", request.getParameter("query"));
+		request.setAttribute("defaultMaxResultCount", request.getParameter("maxResultCount"));
+		RequestDispatcher requestDispatcher = request.getRequestDispatcher("solrSearch.jsp");
 		requestDispatcher.forward(request, response);
 	}
 
