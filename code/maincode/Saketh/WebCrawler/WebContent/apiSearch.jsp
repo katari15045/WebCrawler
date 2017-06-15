@@ -7,6 +7,28 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>API Search</title>
+<style type="text/css">
+	#title
+	{
+		color: #0000EE;
+	}
+	
+	#title a
+	{
+		text-decoration: none;
+	}
+	
+	#title a:HOVER
+	{
+		text-decoration: underline;
+	}
+	
+	#url
+	{
+		color: #3a6d33;
+		font-size: 12px;
+	}
+</style>
 </head>
 <body>
 
@@ -37,15 +59,18 @@
 			Iterator<String> urlIterator = urlSet.iterator();
 			
 			int count = 0;
+			String currentUrl;
 		
 			while( titleIterator.hasNext() )
 			{
-			
+				currentUrl = urlIterator.next();
 	%>		
 				<form action="APIResultHandlerServlet" method="post">
-				<input type="checkbox" name="id" value="<%=count %>"> 
-				<%=titleIterator.next() %> <br>
-				<%=urlIterator.next() %> <br> <br>
+				<input type="checkbox" name="id" value="<%=count %>">
+				
+			<span id="title"> <a href="<%=currentUrl%>"> <%=titleIterator.next() %> </a> </span> <br>
+			<span id="url">	<%=currentUrl%> </span>  <br> <br>
+				
 	<%
 				count = count + 1;
 	
