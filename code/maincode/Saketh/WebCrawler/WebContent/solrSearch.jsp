@@ -62,7 +62,9 @@
 		
 		<%
 			LinkedHashSet<SolrResult> solrResultSet = (LinkedHashSet<SolrResult>) request.getAttribute("solrResultSet");
+			System.out.println("Before iterator init");
 			Iterator iterator = solrResultSet.iterator();
+			System.out.println("After Iterator init");
 			SolrResult currentSolrResult;
 			
 			while( iterator.hasNext() )

@@ -19,10 +19,6 @@ public class Terminal
 		command = "bash " + path.toString();
 		System.out.println("Executing " + path.toString() + "..." );
 		executeCommand();
-		
-		System.out.println("------------------------------\nTerminal starts\n------------------------------\n");
-		//System.out.print( output.toString() );
-		System.out.println("------------------------------\nTerminal ends\n------------------------------\n");
 	}
 	private void executeCommand()
 	{

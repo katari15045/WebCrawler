@@ -30,20 +30,52 @@ public class Database
 		statement = connection.createStatement();
 	}
 	
-	public ResultSet executeQuery(PreparedStatement preparedStatement) throws SQLException
+	public ResultSet executeQuery(PreparedStatement preparedStatement)
 	{
-		return preparedStatement.executeQuery();
+		ResultSet resultSet = null;
+		
+		try 
+		{
+			resultSet = preparedStatement.executeQuery();
+		}
+		
+		catch (SQLException e) 
+		{
+			e.printStackTrace();
+		}
+		
+		return resultSet;
 	}
 	
-	public int executeUpdate(PreparedStatement preparedStatement) throws SQLException
+	public int executeUpdate(PreparedStatement preparedStatement)
 	{
-		return preparedStatement.executeUpdate();
+		int result = 0;
+		
+		try
+		{
+			result = preparedStatement.executeUpdate();
+		}
+		
+		catch (SQLException e) 
+		{
+			e.printStackTrace();
+		}
+		
+		return result;
 	}
 	
-	public void closeConnection() throws SQLException
+	public void closeConnection()
 	{
-		connection.close();
-		statement.close();
+		try 
+		{
+			connection.close();
+			statement.close();
+		}
+		
+		catch (SQLException e1) 
+		{
+			e1.printStackTrace();
+		}
 	}
 	
 	// ---------------Getters & Setters---------------------

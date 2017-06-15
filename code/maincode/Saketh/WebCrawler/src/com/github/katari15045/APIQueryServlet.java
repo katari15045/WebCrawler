@@ -36,7 +36,10 @@ public class APIQueryServlet extends HttpServlet
 		servletContext = request.getServletContext();
 		servletContext.setAttribute("apiResults", apiResult);
 		
-		RequestDispatcher requestDispatcher = request.getRequestDispatcher("apiResults.jsp");
+		RequestDispatcher requestDispatcher = request.getRequestDispatcher("apiSearch.jsp");
+		request.setAttribute("defaultQuery", query);
+		request.setAttribute("defaultMaxResultCount", String.valueOf(resultCount));
+		request.setAttribute("canIDisplayResults", true);
 		requestDispatcher.forward(request, response);
 	}
 	

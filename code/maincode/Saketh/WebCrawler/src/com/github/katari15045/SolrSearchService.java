@@ -16,7 +16,7 @@ public class SolrSearchService
 	private Database database;
 	private PreparedStatement preparedStatement;
 	
-	public LinkedHashSet<SolrResult> start(HttpServletRequest request) throws ClassNotFoundException, SQLException
+	public LinkedHashSet<SolrResult> start(HttpServletRequest request) throws SQLException
 	{
 		getUserInput(request);
 		fetchSolrResults(querystring, maxResultCount);
@@ -65,9 +65,22 @@ public class SolrSearchService
 		solrResultSet = solrResultsParser.parse("search_results_from_solr.xml");
 	}
 	
-	private void storeSolrResultsinMySQL() throws ClassNotFoundException, SQLException
+	private void storeSolrResultsinMySQL() throws SQLException
 	{
-		initializeDatabase();
+		try
+		{
+			initializeDatabase();
+		}
+		
+		catch (ClassNotFoundException e) 
+		{		
+			e.printStackTrace();
+		}
+		
+		catch (SQLException e) 
+		{
+			e.printStackTrace();
+		}
 		
 		Iterator<SolrResult> iterator = solrResultSet.iterator();
 		
