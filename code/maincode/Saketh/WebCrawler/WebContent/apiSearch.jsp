@@ -53,7 +53,7 @@
 	%>
 			<br> <br>
 		
-				<input type="submit" value="Submit"> 
+				<input type="submit" value="Start Nutch Crawl"> 
 			</form>
 		
 	<%
