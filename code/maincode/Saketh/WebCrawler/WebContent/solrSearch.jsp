@@ -52,6 +52,12 @@
 		<input type="submit" value="Search">
 	</form>
 	
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	
+	<form action="home.jsp">
+		<input type="submit" value="Back to Home" />
+	</form>
+	
 	<%
 	
 		if(canIDisplayResults)

@@ -45,10 +45,7 @@ public class APIResultHandlerServlet extends HttpServlet
 			e.printStackTrace();
 		}
 		
-		request.setAttribute("defaultQuery", "");
-		request.setAttribute("defaultMaxResultCount", "");
-		request.setAttribute("canIDisplayResults", false);
-		requestDispatcher = request.getRequestDispatcher("solrSearch.jsp");
+		requestDispatcher = request.getRequestDispatcher("home.jsp");
 		requestDispatcher.forward(request, response);
 	}
 
