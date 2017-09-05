@@ -1,1 +1,0 @@
--> When Terminal.java runs a shell script it should display the output instantly not after executing it
